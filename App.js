@@ -4,8 +4,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CreatedAtComponent from './assets/screens/CreatedAtComponent';
 import FilterPage from './assets/screens/FilterPage';
 import FirstPage from './assets/screens/FirstPage';
+import MaterialGroupPage from './assets/screens/MaterialGroupPage';
 import MaterialNumberPage from './assets/screens/MaterialNumberPage';
 import MaterialType from './assets/screens/MaterialType';
+
 
 export default function App() {
   const { Navigator, Screen } = createNativeStackNavigator()
@@ -30,15 +32,22 @@ export default function App() {
             headerTintColor:"#fff",
             headerStyle:{
               backgroundColor:"rgb(53,74,95)"
-            }}}></Screen> 
-{/*}          <Screen name='CreatedAtComponent' component={CreatedAtComponent} options={{
+            }}}/> 
+          <Screen name='CreatedAtComponent' component={CreatedAtComponent} options={{
               headerShown:true,
               headerTitle:"Filter By: Material Type",
               headerTintColor:"#fff",
               headerStyle:{
                 backgroundColor:"rgb(53,74,95)"
               }
-            }}/>  */}         
+            }}/>    
+          <Screen name='MaterialGroup' component={MaterialGroupPage} options={{
+            headerShown:true,
+            headerTitle:"Filter By: Material Group",
+            headerTintColor:"#fff",
+            headerStyle:{
+              backgroundColor:"rgb(53,74,95)"
+            }}}/>         
       </Navigator>
     </NavigationContainer>
   );

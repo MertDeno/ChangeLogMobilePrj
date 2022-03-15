@@ -3,37 +3,75 @@ import axios from 'axios';
 import React, { Component, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Platform, StyleSheet, View } from 'react-native';
 import { CheckBox, SearchBar } from 'react-native-elements';
+import style from '../css/flatlistItem.component.style.js';
 
 
 function MaterialType(props) {
     const [matTypeData, setMatTypeData] = useState([])
     const [filteredData, setFilteredData] = useState([])
-    const [checkedMatType,setCheckedMatType] = useState()
+    const [checkedMatType,setCheckedMatType] = useState([])
+    const [checkedAll,setCheckedAll] = useState()    
     const [isLoading,setIsLoading] = useState(false)
     const [search, setSearch] = useState('')
-    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMtartSet") : ("https://f57e-24-133-107-93.eu.ngrok.io/EtMtartSet")
+
+    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMtartSet") : ("https://92ae-24-133-107-93.eu.ngrok.io/EtMtartSet")
+    var trueArr = []
 
     const handleOnChange = (matType) => {
-        matTypeData.forEach((item) => {
-            if(matType === item.Mtart){
-                item.checked = !item.checked
-                return item.checked
-            }
-            else{
-                item.checked = item.checked
-                return item.checked
-            }
-        })
+        if(filteredData.length === matTypeData.length){
+            matTypeData.forEach((item) => {
+                if(matType === item.Mtart){
+                    item.checked = !item.checked
+                    setCheckedAll(false)
+                    return item.checked
+                }
+                else{
+                    item.checked = item.checked
+                    return item.checked
+                }
+            })
+        
+            setCheckedMatType(matTypeData.filter((item) => item.checked === true))        
+            setFilteredData(matTypeData)
+    
+            matTypeData.forEach((item) => {
+                if(item.checked === true){
+                    trueArr.push(item.Mtart)
+                }
+            })            
+        }
+        else{
+            filteredData.forEach((item) => {
+                if(matType === item.Mtart){
+                    item.checked = !item.checked
+                    setCheckedAll(false)
+                    return item.checked
+                }
+                else{
+                    item.checked = item.checked
+                    return item.checked
+                }
+            })
+            setCheckedMatType(filteredData.filter((item) => item.checked === true))        
+            setFilteredData(filteredData)
+    
+            filteredData.forEach((item) => {
+                if(item.checked === true){
+                    trueArr.push(item.Mtart)
+                }
+            })                                    
+        }
 
-        setCheckedMatType(matTypeData.filter((item) => item.checked))
-        setFilteredData(matTypeData)
+        if(trueArr.length === matTypeData.length || trueArr.length === filteredData.length){
+            setCheckedAll(true)
+        }
     }
 
     const ListViewType = ({item, index}) => {
         return (
           // Flat List Item
             <CheckBox 
-                containerStyle={styles.flatListItem} 
+                containerStyle={style.flatListItem} 
                 onPress={() => {handleOnChange(item.Mtart)}} 
                 title={item.Mtart+" - "+item.Mtbez}
                 checked={item.checked}/>
@@ -62,19 +100,67 @@ function MaterialType(props) {
 
     const updateSearch = (search) => {
         setSearch(search)
+
         const newData = matTypeData.filter((item) => {
-            return item.Mtart.includes(search.toUpperCase()) || item.Mtbez.includes(search.toUpperCase()) 
+            return item.Mtart.includes(search.toUpperCase())
         })
-        setFilteredData(newData)
+
+        for (let index = 0; index < newData.length; index++) {
+            const item = newData[index];
+            if(item.checked === false){
+                setCheckedAll(false)
+                break
+            }
+            else{
+                setCheckedAll(true)
+            }
+        }
+    
+        setFilteredData(newData) 
     }
 
     const handleSelectAll = () => {
-        matTypeData.map(item => {
-            item.checked = !item.checked
-        })
+        setCheckedAll(!checkedAll)
+        if(checkedAll !== true){
+            if(filteredData.length === matTypeData.length){
+                matTypeData.forEach((item,index) => {
+                    item.checked = !item.checked
+                    if(item.checked === true)
+                        trueArr.push(item.Mtart)
+                })
+        
+                matTypeData.forEach((item,index) => {
+                    if(item.checked === false)
+                        item.checked = true
+//                        trueArr.push(item.Mtart)
+                })
+    
+                setCheckedMatType(matTypeData.filter((item) => item.checked))
+                setFilteredData(matTypeData)
+            }
+            else{
+                filteredData.forEach((item) => {
+                    item.checked = !item.checked
+                    if(item.checked === true)
+                        trueArr.push(item.Mtart)
+                })
 
-        setCheckedMatType(matTypeData.filter((item) => item.checked))
-        setFilteredData(matTypeData)
+                filteredData.forEach((item,index) => {
+                    if(item.checked === false)
+                        item.checked = true
+//                        trueArr.push(item.Mtart)
+                })                
+            //    setCheckedAll(false)
+                setCheckedMatType(filteredData.filter((item) => item.checked))
+                setFilteredData(filteredData)                
+            }
+        }
+        else{
+            filteredData.forEach((item,index) => {
+                item.checked = false
+            })            
+            setCheckedAll(false)
+        }
     }
 
     return (        
@@ -87,7 +173,7 @@ function MaterialType(props) {
                 lightTheme
                 round
                 inputContainerStyle={{backgroundColor:"rgb(247,247,247)"}}/>
-                <CheckBox containerStyle={styles.flatListItem} title="Select All" onPress={handleSelectAll} checked={checkedMatType}></CheckBox>
+                <CheckBox containerStyle={style.flatListItem} title="Select All" onPress={handleSelectAll} checked={checkedAll}></CheckBox>
                 {isLoading ? (
                     <View style={{flex:3,justifyContent:"center", alignItems:"center"}}>
                         <ActivityIndicator size={"large"}/>
@@ -105,12 +191,3 @@ function MaterialType(props) {
 }
 
 export default MaterialType;
-
-const styles = StyleSheet.create({
-    flatListItem:{
-        backgroundColor:"#fff",
-        borderRadius:20,
-        padding:20,
-        margin:5
-    }
-})

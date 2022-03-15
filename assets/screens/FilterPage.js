@@ -9,6 +9,7 @@ function FilterPage({ navigation }) {
     const materialNumberPage  = () => navigation.navigate("MaterialNumberPage")
     const materialTypePage = () => navigation.navigate("MaterialType")
     const createdAtComponent = () => navigation.navigate("CreatedAtComponent")
+    const materialGroupPage = () => navigation.navigate("MaterialGroup")
 
     return (
         <SettingsPage backgroundColor="rgb(247,247,247)" scrollEnabled={false}>
@@ -26,7 +27,7 @@ function FilterPage({ navigation }) {
                 <NavigateRow onPress={materialTypePage} leftIcon={{name:"type", type:"feather"}} text='Material Type'></NavigateRow>
             </SectionRow>
             <SectionRow>
-                <NavigateRow leftIcon={{name:"object-group", type:"font-awesome"}} text='Material Group'></NavigateRow>
+                <NavigateRow onPress={materialGroupPage} leftIcon={{name:"object-group", type:"font-awesome"}} text='Material Group'></NavigateRow>
             </SectionRow>
             <SectionRow>
                 <NavigateRow leftIcon={{name:"factory", type:"material-community"}} text='Plants'></NavigateRow>
@@ -35,7 +36,7 @@ function FilterPage({ navigation }) {
                 <NavigateRow leftIcon={{name:"finance", type:"material-community"}} text='Sales Organization'></NavigateRow>
             </SectionRow>   
             <SectionRow>
-                <NavigateRow leftIcon={{name:"date-range", type:"material"}} text='Created At'></NavigateRow>
+                <NavigateRow onPress={() => alert(1)} leftIcon={{name:"date-range", type:"material"}} text='Created At'></NavigateRow>
             </SectionRow>
             <SectionRow>
                 <NavigateRow leftIcon={{name:"person-sharp", type:"ionicon"}} text='Created By'></NavigateRow>
