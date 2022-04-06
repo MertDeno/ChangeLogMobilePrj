@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CreatedAtComponent from "./assets/screens/CreatedAtComponent";
@@ -7,6 +8,18 @@ import MaterialNumberPage from "./assets/screens/MaterialNumberPage";
 import MaterialType from "./assets/screens/MaterialType";
 import PlantsPage from "./assets/screens/PlantsPage";
 import SalesOrganization from "./assets/screens/SalesOrganization";
+=======
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import CreatedAtComponent from './assets/screens/CreatedAtComponent';
+import FilterPage from './assets/screens/FilterPage';
+import FirstPage from './assets/screens/FirstPage';
+import MaterialGroupPage from './assets/screens/MaterialGroupPage';
+import MaterialNumberPage from './assets/screens/MaterialNumberPage';
+import MaterialType from './assets/screens/MaterialType';
+>>>>>>> 950d9759067ff7e0f2086543a8a6c0e3647a08f0
+
 
 export default function App() {
   const { Navigator, Screen } = createNativeStackNavigator();
@@ -40,6 +53,7 @@ export default function App() {
           name="MaterialType"
           component={MaterialType}
           options={{
+<<<<<<< HEAD
             headerShown: true,
             headerTitle: "Filter By: Material Type",
             headerTintColor: "#fff",
@@ -73,13 +87,33 @@ export default function App() {
           }}
         ></Screen>
         {/*}          <Screen name='CreatedAtComponent' component={CreatedAtComponent} options={{
+=======
+            headerShown:true,
+            headerTitle:"Filter By: Material Type",
+            headerTintColor:"#fff",
+            headerStyle:{
+              backgroundColor:"rgb(53,74,95)"
+            }}}/> 
+          <Screen name='CreatedAtComponent' component={CreatedAtComponent} options={{
+>>>>>>> 950d9759067ff7e0f2086543a8a6c0e3647a08f0
               headerShown:true,
               headerTitle:"Filter By: Material Type",
               headerTintColor:"#fff",
               headerStyle:{
                 backgroundColor:"rgb(53,74,95)"
               }
+<<<<<<< HEAD
             }}/>  */}
+=======
+            }}/>    
+          <Screen name='MaterialGroup' component={MaterialGroupPage} options={{
+            headerShown:true,
+            headerTitle:"Filter By: Material Group",
+            headerTintColor:"#fff",
+            headerStyle:{
+              backgroundColor:"rgb(53,74,95)"
+            }}}/>         
+>>>>>>> 950d9759067ff7e0f2086543a8a6c0e3647a08f0
       </Navigator>
     </NavigationContainer>
   );
