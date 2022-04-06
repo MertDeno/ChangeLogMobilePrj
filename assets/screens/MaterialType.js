@@ -3,19 +3,23 @@ import axios from 'axios';
 import React, { Component, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Platform, StyleSheet, View } from 'react-native';
 import { CheckBox, SearchBar } from 'react-native-elements';
+import MaterialTypeSearchBar from '../../components/MaterialTypeSearchBar.js';
+import SelectAllCheckbox from '../../components/SelectAllCheckbox.js';
 import style from '../css/flatlistItem.component.style.js';
 
 
 function MaterialType(props) {
-    const [matTypeData, setMatTypeData] = useState([])
-    const [filteredData, setFilteredData] = useState([])
-    const [checkedMatType,setCheckedMatType] = useState([])
-    const [checkedAll,setCheckedAll] = useState()    
-    const [isLoading,setIsLoading] = useState(false)
-    const [search, setSearch] = useState('')
+    const [
+        [matTypeData, setMatTypeData], 
+        [filteredData, setFilteredData], 
+        [checkedMatType,setCheckedMatType], 
+        [checkedAll,setCheckedAll], 
+        [isLoading,setIsLoading], 
+        [search, setSearch]
+    ] = [useState([]), useState([]), useState([]), useState(), useState(false), useState('')]
 
-    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMtartSet") : ("https://92ae-24-133-107-93.eu.ngrok.io/EtMtartSet")
-    var trueArr = []
+    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMtartSet") : ("https://e34e-24-133-107-93.eu.ngrok.io/EtMtartSet"),
+    trueArr = []
 
     const handleOnChange = (matType) => {
         if(filteredData.length === matTypeData.length){
@@ -31,11 +35,11 @@ function MaterialType(props) {
                 }
             })
         
-            setCheckedMatType(matTypeData.filter((item) => item.checked === true))        
+            setCheckedMatType(matTypeData.filter((item) => item.checked))        
             setFilteredData(matTypeData)
     
             matTypeData.forEach((item) => {
-                if(item.checked === true){
+                if(item.checked){
                     trueArr.push(item.Mtart)
                 }
             })            
@@ -52,25 +56,24 @@ function MaterialType(props) {
                     return item.checked
                 }
             })
-            setCheckedMatType(filteredData.filter((item) => item.checked === true))        
+            setCheckedMatType(matTypeData.filter((item) => item.checked))               
             setFilteredData(filteredData)
     
             filteredData.forEach((item) => {
-                if(item.checked === true){
+                if(item.checked){
                     trueArr.push(item.Mtart)
                 }
             })                                    
         }
 
-        if(trueArr.length === matTypeData.length || trueArr.length === filteredData.length){
-            setCheckedAll(true)
-        }
+        trueArr.length === matTypeData.length || trueArr.length === filteredData.length ? setCheckedAll(true) : false
     }
 
     const ListViewType = ({item, index}) => {
         return (
           // Flat List Item
             <CheckBox 
+                key={item.key}
                 containerStyle={style.flatListItem} 
                 onPress={() => {handleOnChange(item.Mtart)}} 
                 title={item.Mtart+" - "+item.Mtbez}
@@ -81,13 +84,8 @@ function MaterialType(props) {
     const fetchApi = async() => {
         try{
             const matTypeRes = await axios.get(baseURL)
-            setMatTypeData(matTypeRes.data.map(data => ({...data, checked: false})))
-//            setMatTypeData(matTypeRes.data)
-            setFilteredData(matTypeRes.data.map(data => ({...data, checked: false})))
-            /*setIsLoading(true)
-            setTimeout(() => {
-                setIsLoading(false)
-            }, 1000)*/
+            setMatTypeData(matTypeRes.data.map(data => ({...data, checked: false, key:Math.random().toString()})))
+            setFilteredData(matTypeRes.data.map(data => ({...data, checked: false, key:Math.random().toString()})))
         }
         catch(error) {
             console.log(error)
@@ -98,6 +96,7 @@ function MaterialType(props) {
         fetchApi()
     },[])
 
+    
     const updateSearch = (search) => {
         setSearch(search)
 
@@ -107,7 +106,7 @@ function MaterialType(props) {
 
         for (let index = 0; index < newData.length; index++) {
             const item = newData[index];
-            if(item.checked === false){
+            if(!item.checked){
                 setCheckedAll(false)
                 break
             }
@@ -121,16 +120,16 @@ function MaterialType(props) {
 
     const handleSelectAll = () => {
         setCheckedAll(!checkedAll)
-        if(checkedAll !== true){
+        if(!checkedAll){
             if(filteredData.length === matTypeData.length){
                 matTypeData.forEach((item,index) => {
                     item.checked = !item.checked
-                    if(item.checked === true)
+                    if(item.checked)
                         trueArr.push(item.Mtart)
                 })
         
                 matTypeData.forEach((item,index) => {
-                    if(item.checked === false)
+                    if(!item.checked)
                         item.checked = true
 //                        trueArr.push(item.Mtart)
                 })
@@ -141,12 +140,12 @@ function MaterialType(props) {
             else{
                 filteredData.forEach((item) => {
                     item.checked = !item.checked
-                    if(item.checked === true)
+                    if(item.checked)
                         trueArr.push(item.Mtart)
                 })
 
                 filteredData.forEach((item,index) => {
-                    if(item.checked === false)
+                    if(!item.checked)
                         item.checked = true
 //                        trueArr.push(item.Mtart)
                 })                
@@ -165,15 +164,8 @@ function MaterialType(props) {
 
     return (        
         <View flex={1}>
-            <SearchBar value={search} 
-                inputStyle={{backgroundColor:"#fff", borderRadius:15}} 
-                containerStyle={{backgroundColor:"rgb(247,247,247)"}} 
-                onChangeText={updateSearch} 
-                placeholder="Search.."
-                lightTheme
-                round
-                inputContainerStyle={{backgroundColor:"rgb(247,247,247)"}}/>
-                <CheckBox containerStyle={style.flatListItem} title="Select All" onPress={handleSelectAll} checked={checkedAll}></CheckBox>
+            <MaterialTypeSearchBar matTypeValue={search} onMatTypeSearch={updateSearch}/>
+            <SelectAllCheckbox onChecked={handleSelectAll} isChecked={checkedAll}/>
                 {isLoading ? (
                     <View style={{flex:3,justifyContent:"center", alignItems:"center"}}>
                         <ActivityIndicator size={"large"}/>
@@ -182,7 +174,7 @@ function MaterialType(props) {
                 <FlatList 
                     data={filteredData}
                     showsHorizontalScrollIndicator={false}
-                    keyExtractor={(item, index) => 'key'+index}
+                    alwaysBounceHorizontal={false}
                     renderItem={ListViewType}>
                 </FlatList>
             )}

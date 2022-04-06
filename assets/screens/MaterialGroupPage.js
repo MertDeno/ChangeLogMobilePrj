@@ -5,14 +5,16 @@ import { CheckBox, SearchBar } from 'react-native-elements';
 import style from '../css/flatlistItem.component.style.js';
 
 function MaterialGroupPage(props) {
-    const [matGrpData,setMatGrpData] = useState([])
-    const [filteredData, setFilteredData] = useState([])
-    const [checkedMatGrp, setCheckedMatGrp] = useState([])    
-    const [checkedAll, setCheckedAll ] = useState(false)
-    const [search, setSearch] = useState()
+    const [
+        [matGrpData,setMatGrpData], 
+        [filteredData, setFilteredData], 
+        [checkedMatGrp, setCheckedMatGrp],
+        [checkedAll, setCheckedAll ],
+        [search, setSearch]
+      ] = [useState([]), useState([]), useState([]), useState(false), useState()]
     
-    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMatklSet") : ("https://92ae-24-133-107-93.eu.ngrok.io/EtMatklSet")
-    var trueArr = []
+    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMatklSet") : ("https://e34e-24-133-107-93.eu.ngrok.io/EtMatklSet"),
+    trueArr = []
 
     const fetchApi = async() => {
         try {
@@ -113,7 +115,7 @@ function MaterialGroupPage(props) {
 
     const handleSelectAll = () => {
         setCheckedAll(!checkedAll)
-        if(checkedAll !== true){
+        if(!checkedAll){
             if(filteredData.length === matGrpData.length){
                 matGrpData.forEach((item) => {
                     item.checked = !item.checked

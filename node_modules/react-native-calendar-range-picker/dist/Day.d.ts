@@ -1,0 +1,14 @@
+import React from "react";
+import { LOCALE_TYPE } from "./utils/locale";
+import { Day_Type } from "./utils/data";
+import { Style } from "./index";
+interface Props {
+    day: Day_Type;
+    locale: LOCALE_TYPE;
+    disabledBeforeToday?: boolean;
+    style?: Style;
+}
+declare function Day({ day, locale, disabledBeforeToday, style }: Props): JSX.Element;
+declare const _default: React.MemoExoticComponent<typeof Day>;
+export default _default;
+//# sourceMappingURL=Day.d.ts.map

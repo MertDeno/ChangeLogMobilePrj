@@ -1,7 +1,8 @@
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CreatedAtComponent from './assets/screens/CreatedAtComponent';
+import CreatedAtPage from './assets/screens/CreatedAtPage';
+import CreatedByPage from './assets/screens/CreatedByPage';
 import FilterPage from './assets/screens/FilterPage';
 import FirstPage from './assets/screens/FirstPage';
 import MaterialGroupPage from './assets/screens/MaterialGroupPage';
@@ -33,14 +34,22 @@ export default function App() {
             headerStyle:{
               backgroundColor:"rgb(53,74,95)"
             }}}/> 
-          <Screen name='CreatedAtComponent' component={CreatedAtComponent} options={{
+          <Screen name='CreatedAtPage' component={CreatedAtPage} options={{
               headerShown:true,
-              headerTitle:"Filter By: Material Type",
+              headerTitle:"Filter By: Created At",
               headerTintColor:"#fff",
               headerStyle:{
                 backgroundColor:"rgb(53,74,95)"
               }
             }}/>    
+          <Screen name='CreatedBy' component={CreatedByPage} options={{
+              headerShown:true,
+              headerTitle:"Filter By: Created By",
+              headerTintColor:"#fff",
+              headerStyle:{
+                backgroundColor:"rgb(53,74,95)"
+              }
+            }}/>                
           <Screen name='MaterialGroup' component={MaterialGroupPage} options={{
             headerShown:true,
             headerTitle:"Filter By: Material Group",
