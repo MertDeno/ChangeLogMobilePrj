@@ -1,18 +1,23 @@
 
-import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Chip, Header } from 'react-native-elements';
-import { BaseRow, NavigateRow, SectionRow, SettingsPage } from 'react-native-settings-view';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Header } from 'react-native-elements';
+import { NavigateRow, SectionRow, SettingsPage } from 'react-native-settings-view';
 import Icon from 'react-native-vector-icons/Feather';
+import { useSelector } from "react-redux"
 
 
 function FilterPage({ navigation }) {
     const materialNumberPage = () => navigation.navigate("MaterialNumberPage")
-    const materialTypePage = () => navigation.navigate("MaterialType")
-    const materialGroupPage = () => navigation.navigate("MaterialGroup")
+    const materialTypePage = () => navigation.navigate("MaterialTypePage")
+    const materialGroupPage = () => navigation.navigate("MaterialGroupPage")
     const createdAtPage = () => navigation.navigate("CreatedAtPage")
-    const createdByPage = () => navigation.navigate("CreatedBy")
-
+    const createdByPage = () => navigation.navigate("CreatedByPage")
+    const PlantsPage = () => navigation.navigate("PlantsPage");
+    const SalesOrganizationPage = () => navigation.navigate("SalesOrganizationPage");
+    const changedAtPage = () => navigation.navigate("ChangedAtPage");
+    const changedByPage = () => navigation.navigate("ChangedByPage");
+    const selectedItems = useSelector(state => state.changeLog.checkedElements)
+    console.log(selectedItems)
     return (
         <SettingsPage backgroundColor="rgb(247,247,247)" scrollEnabled={false}>
             <Header backgroundColor='rgb(53,74,95)' centerComponent={{ text: "Filter Page", style: { color: "#fff", marginTop: 5, fontSize: 15 } }}
@@ -32,10 +37,10 @@ function FilterPage({ navigation }) {
                 <NavigateRow onPress={materialGroupPage} leftIcon={{ name: "object-group", type: "font-awesome" }} text='Material Group'></NavigateRow>
             </SectionRow>
             <SectionRow>
-                <NavigateRow leftIcon={{ name: "factory", type: "material-community" }} text='Plants'></NavigateRow>
+                <NavigateRow onPress={PlantsPage} leftIcon={{ name: "factory", type: "material-community" }} text='Plants'></NavigateRow>
             </SectionRow>
             <SectionRow>
-                <NavigateRow leftIcon={{ name: "finance", type: "material-community" }} text='Sales Organization'></NavigateRow>
+                <NavigateRow onPress={SalesOrganizationPage} leftIcon={{ name: "finance", type: "material-community" }} text='Sales Organization'></NavigateRow>
             </SectionRow>
             <SectionRow>
                 <NavigateRow onPress={createdAtPage} leftIcon={{ name: "date-range", type: "material" }} text='Created At'></NavigateRow>
@@ -44,10 +49,10 @@ function FilterPage({ navigation }) {
                 <NavigateRow onPress={createdByPage} leftIcon={{ name: "person-sharp", type: "ionicon" }} text='Created By'></NavigateRow>
             </SectionRow>
             <SectionRow>
-                <NavigateRow leftIcon={{ name: "date-range", type: "material" }} text='Changed At'></NavigateRow>
+                <NavigateRow onPress={changedAtPage} leftIcon={{ name: "date-range", type: "material" }} text='Changed At'></NavigateRow>
             </SectionRow>
             <SectionRow>
-                <NavigateRow leftIcon={{ name: "person", type: "material" }} text='Changed By'></NavigateRow>
+                <NavigateRow onPress={changedByPage} leftIcon={{ name: "person", type: "material" }} text='Changed By'></NavigateRow>
             </SectionRow>
             <View style={{ alignContent: "center", alignItems: "center" }}>
                 <TouchableOpacity style={{ borderRadius: 20, marginVertical: 25, alignItems: "center", justifyContent: "center", width: 100, height: 30, backgroundColor: "rgb(53,74,95)" }}>

@@ -31,7 +31,3 @@ function CreatedAtPage(){
 }
 
 export default CreatedAtPage;
-
-const styles = StyleSheet.create({
-
-})

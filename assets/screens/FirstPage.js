@@ -1,10 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { Header } from 'react-native-elements';
 import  Icon  from 'react-native-vector-icons/Feather';
 import style from '../css/firstPage.component.style';
-import FilterPage from './FilterPage';
-
 
 function FirstPage({ navigation }) {
     const filterPage = () => navigation.navigate("FilterPage")

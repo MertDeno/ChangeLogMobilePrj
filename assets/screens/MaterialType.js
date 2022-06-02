@@ -1,73 +1,25 @@
-
-import axios from 'axios';
-import React, { Component, useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Platform, StyleSheet, View } from 'react-native';
-import { CheckBox, SearchBar } from 'react-native-elements';
-import MaterialTypeSearchBar from '../../components/MaterialTypeSearchBar.js';
-import SelectAllCheckbox from '../../components/SelectAllCheckbox.js';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Platform, View } from 'react-native';
+import { CheckBox} from 'react-native-elements';
+import SearchBarForCheckboxes from '../components/SearchBarForCheckboxes';
+import SelectAllCheckbox from '../components/SelectAllCheckbox';
 import style from '../css/flatlistItem.component.style.js';
-
+import useChange from '../hooks/use-change';
+import useSearch from '../hooks/use-search';
+import useSelectAll from '../hooks/use-select-all';
 
 function MaterialType(props) {
     const [
-        [matTypeData, setMatTypeData], 
-        [filteredData, setFilteredData], 
-        [checkedMatType,setCheckedMatType], 
-        [checkedAll,setCheckedAll], 
-        [isLoading,setIsLoading], 
-        [search, setSearch]
-    ] = [useState([]), useState([]), useState([]), useState(), useState(false), useState('')]
+        [materialTypes, setMaterialTypes], 
+        [filteredMaterialTypes, setFilteredMaterialTypes], 
+        [checkedAll, setCheckedAll]
+    ] = [useState([]), useState([]), useState(false)]
 
-    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMtartSet") : ("https://e34e-24-133-107-93.eu.ngrok.io/EtMtartSet"),
-    trueArr = []
+    const { handleSelectAll: handleSelectAll } = useSelectAll(checkedAll, setCheckedAll, materialTypes, setMaterialTypes, filteredMaterialTypes, setFilteredMaterialTypes)
+    const { searchValue: materialSearchValue, searchHandler: materialSearchHandler } = useSearch(setCheckedAll, materialTypes, setFilteredMaterialTypes)
+    const { handleOnChange: handleOnChange } = useChange(setCheckedAll, materialTypes, setMaterialTypes, filteredMaterialTypes, setFilteredMaterialTypes)
 
-    const handleOnChange = (matType) => {
-        if(filteredData.length === matTypeData.length){
-            matTypeData.forEach((item) => {
-                if(matType === item.Mtart){
-                    item.checked = !item.checked
-                    setCheckedAll(false)
-                    return item.checked
-                }
-                else{
-                    item.checked = item.checked
-                    return item.checked
-                }
-            })
-        
-            setCheckedMatType(matTypeData.filter((item) => item.checked))        
-            setFilteredData(matTypeData)
-    
-            matTypeData.forEach((item) => {
-                if(item.checked){
-                    trueArr.push(item.Mtart)
-                }
-            })            
-        }
-        else{
-            filteredData.forEach((item) => {
-                if(matType === item.Mtart){
-                    item.checked = !item.checked
-                    setCheckedAll(false)
-                    return item.checked
-                }
-                else{
-                    item.checked = item.checked
-                    return item.checked
-                }
-            })
-            setCheckedMatType(matTypeData.filter((item) => item.checked))               
-            setFilteredData(filteredData)
-    
-            filteredData.forEach((item) => {
-                if(item.checked){
-                    trueArr.push(item.Mtart)
-                }
-            })                                    
-        }
-
-        trueArr.length === matTypeData.length || trueArr.length === filteredData.length ? setCheckedAll(true) : false
-    }
+    let baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMtartSet") : ("https://7333-212-252-137-37.eu.ngrok.io/EtMtartSet")
 
     const ListViewType = ({item, index}) => {
         return (
@@ -82,10 +34,20 @@ function MaterialType(props) {
     };
 
     const fetchApi = async() => {
+        const response = await fetch(baseURL)
+        const materialTypeResponse = await response.json()
+        
         try{
-            const matTypeRes = await axios.get(baseURL)
-            setMatTypeData(matTypeRes.data.map(data => ({...data, checked: false, key:Math.random().toString()})))
-            setFilteredData(matTypeRes.data.map(data => ({...data, checked: false, key:Math.random().toString()})))
+            const fetchedMaterialType = materialTypeResponse.map(materialType => (
+                {
+                    ...materialType,
+                    mainAttribute: 'Mtart',
+                    checked: false, 
+                    key:Math.random().toString()
+                }
+            ))
+            setMaterialTypes(fetchedMaterialType)
+            setFilteredMaterialTypes(fetchedMaterialType)
         }
         catch(error) {
             console.log(error)
@@ -94,90 +56,25 @@ function MaterialType(props) {
 
     useEffect(() => {
         fetchApi()
+        const timer = setTimeout(() => {
+        }, 100)
+
+        return () => {
+            clearTimeout(timer)
+        }
     },[])
-
-    
-    const updateSearch = (search) => {
-        setSearch(search)
-
-        const newData = matTypeData.filter((item) => {
-            return item.Mtart.includes(search.toUpperCase())
-        })
-
-        for (let index = 0; index < newData.length; index++) {
-            const item = newData[index];
-            if(!item.checked){
-                setCheckedAll(false)
-                break
-            }
-            else{
-                setCheckedAll(true)
-            }
-        }
-    
-        setFilteredData(newData) 
-    }
-
-    const handleSelectAll = () => {
-        setCheckedAll(!checkedAll)
-        if(!checkedAll){
-            if(filteredData.length === matTypeData.length){
-                matTypeData.forEach((item,index) => {
-                    item.checked = !item.checked
-                    if(item.checked)
-                        trueArr.push(item.Mtart)
-                })
-        
-                matTypeData.forEach((item,index) => {
-                    if(!item.checked)
-                        item.checked = true
-//                        trueArr.push(item.Mtart)
-                })
-    
-                setCheckedMatType(matTypeData.filter((item) => item.checked))
-                setFilteredData(matTypeData)
-            }
-            else{
-                filteredData.forEach((item) => {
-                    item.checked = !item.checked
-                    if(item.checked)
-                        trueArr.push(item.Mtart)
-                })
-
-                filteredData.forEach((item,index) => {
-                    if(!item.checked)
-                        item.checked = true
-//                        trueArr.push(item.Mtart)
-                })                
-            //    setCheckedAll(false)
-                setCheckedMatType(filteredData.filter((item) => item.checked))
-                setFilteredData(filteredData)                
-            }
-        }
-        else{
-            filteredData.forEach((item,index) => {
-                item.checked = false
-            })            
-            setCheckedAll(false)
-        }
-    }
 
     return (        
         <View flex={1}>
-            <MaterialTypeSearchBar matTypeValue={search} onMatTypeSearch={updateSearch}/>
-            <SelectAllCheckbox onChecked={handleSelectAll} isChecked={checkedAll}/>
-                {isLoading ? (
-                    <View style={{flex:3,justifyContent:"center", alignItems:"center"}}>
-                        <ActivityIndicator size={"large"}/>
-                    </View>
-                ):(             
+            <SearchBarForCheckboxes value={materialSearchValue} onSearch={materialSearchHandler}/>
+            <SelectAllCheckbox onChecked={handleSelectAll} isChecked={checkedAll}/>            
                 <FlatList 
-                    data={filteredData}
+                    data={filteredMaterialTypes}
                     showsHorizontalScrollIndicator={false}
                     alwaysBounceHorizontal={false}
-                    renderItem={ListViewType}>
+                    renderItem={ListViewType}
+                    keyExtractor={(item, index) => 'key'+index}>
                 </FlatList>
-            )}
         </View>
     );
 }

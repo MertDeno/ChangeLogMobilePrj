@@ -12,8 +12,10 @@
   "dependencies": {
     "@react-native-community/checkbox": "^0.5.10",
     "@react-native-community/datetimepicker": "4.0.0",
+    "@react-native-picker/picker": "2.2.1",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
+    "@reduxjs/toolkit": "^1.8.2",
     "@ui5/webcomponents": "^1.1.2",
     "@ui5/webcomponents-fiori": "^1.1.2",
     "@ui5/webcomponents-react": "^0.21.2",
@@ -35,11 +37,15 @@
     "react-native-multiple-select-list": "^1.0.4",
     "react-native-network-info": "^5.2.1",
     "react-native-public-ip": "^1.0.2",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.10.1",
     "react-native-select-multiple": "^2.1.0",
     "react-native-settings-view": "^0.2.0",
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "0.17.1",
-    "react-navigation": "^4.4.4"
+    "react-navigation": "^4.4.4",
+    "react-redux": "^8.0.2",
+    "redux": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

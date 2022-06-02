@@ -1,85 +1,57 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { FlatList, Platform, StyleSheet, View } from 'react-native';
-import { CheckBox, SearchBar } from 'react-native-elements';
+import { FlatList, Platform, View } from 'react-native';
+import { CheckBox } from 'react-native-elements';
+import SearchBarForCheckboxes from '../components/SearchBarForCheckboxes';
+import SelectAllCheckbox from '../components/SelectAllCheckbox';
 import style from '../css/flatlistItem.component.style.js';
+import useChange from '../hooks/use-change';
+import useSearch from '../hooks/use-search';
+import useSelectAll from '../hooks/use-select-all';
 
 function MaterialGroupPage(props) {
     const [
-        [matGrpData,setMatGrpData], 
-        [filteredData, setFilteredData], 
-        [checkedMatGrp, setCheckedMatGrp],
-        [checkedAll, setCheckedAll ],
-        [search, setSearch]
-      ] = [useState([]), useState([]), useState([]), useState(false), useState()]
-    
-    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMatklSet") : ("https://e34e-24-133-107-93.eu.ngrok.io/EtMatklSet"),
-    trueArr = []
+        [materialGroups,setMaterialGroups], 
+        [filteredMaterialGroups, setFilteredMaterialGroups], 
+        [checkedAll, setCheckedAll],
+    ] = [useState([]), useState([]), useState(false)]
+
+    const { handleSelectAll: handleSelectAll } = useSelectAll(checkedAll, setCheckedAll, materialGroups, setMaterialGroups, filteredMaterialGroups, setFilteredMaterialGroups)
+    const { handleOnChange: handleOnChange } = useChange(setCheckedAll, materialGroups, setMaterialGroups, filteredMaterialGroups, setFilteredMaterialGroups) 
+    const { searchValue: materialGroupSearchValue, searchHandler: materialGroupSearchHandler } = useSearch(setCheckedAll, materialGroups, setFilteredMaterialGroups)
+
+    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMatklSet") : ("https://8567-24-133-107-93.eu.ngrok.io/EtMatklSet")
 
     const fetchApi = async() => {
-        try {
-            const matklDataRes = await axios(baseURL)
-            setMatGrpData(matklDataRes.data.map(data => ({...data, checked: false})))
-            setFilteredData(matklDataRes.data.map(data => ({...data, checked: false})))
-        } catch (error) {
+        const response = await fetch(baseURL)
+        const materialGroupResponse = await response.json()
+
+        try{
+            const fetchedMaterialGroupData = materialGroupResponse.map(materialGroupItem => (
+                {
+                    ...materialGroupItem,
+                    mainAttribute: 'Matkl',
+                    checked: false, 
+                    key:Math.random().toString()
+                }
+            ))
+            setMaterialGroups(fetchedMaterialGroupData)
+            setFilteredMaterialGroups(fetchedMaterialGroupData)
+        }
+        catch(error) {
             console.log(error)
         }
     }
 
     useEffect(() => {
         fetchApi()
+        const timer = setTimeout(() => {
+        }, 100)
+
+        return () => {
+            clearTimeout(timer)
+        }        
     }, [])
-
-    const handleOnChange = (matkl) => {
-        if(filteredData.length === matGrpData.length){
-            matGrpData.forEach((item) => {
-                if(matkl === item.Matkl){
-                    item.checked = !item.checked
-                    setCheckedAll(false)
-                    return item.checked
-                }
-                else{
-                    item.checked = item.checked
-                    return item.checked
-                }
-            })
-        
-            setCheckedMatGrp(matGrpData.filter((item) => item.checked))
-            setFilteredData(matGrpData)
-
-            matGrpData.forEach((item) => {
-                if(item.checked === true){
-                    trueArr.push(item.Mtart)
-                }
-            })                  
-        }
-        else{
-            filteredData.forEach((item) => {
-                if(matkl === item.Matkl){
-                    item.checked = !item.checked
-                    setCheckedAll(false)
-                    return item.checked
-                }
-                else{
-                    item.checked = item.checked
-                    return item.checked
-                }
-            })
-        
-            setCheckedMatGrp(filteredData.filter((item) => item.checked))
-            setFilteredData(filteredData)
-
-            filteredData.forEach((item) => {
-                if(item.checked === true){
-                    trueArr.push(item.Mtart)
-                }
-            })            
-        }
-
-        if(trueArr.length === matGrpData.length || trueArr.length === filteredData.length){
-            setCheckedAll(true)
-        }
-    }
 
     const ListViewType = ({item, index}) => {
         return (
@@ -92,88 +64,16 @@ function MaterialGroupPage(props) {
         );
     };
 
-    const changeTextHandle = (search) => {
-        setSearch(search)
-
-        const searchResult = matGrpData.filter((item) => {
-            return item.Matkl.includes(search)
-        })
-
-        for (let index = 0; index < searchResult.length; index++) {
-            const item = searchResult[index];
-            if(item.checked === false){
-                setCheckedAll(false)
-                break
-            }
-            else{
-                setCheckedAll(true)
-            }
-        }
-        
-        setFilteredData(searchResult)
-    }
-
-    const handleSelectAll = () => {
-        setCheckedAll(!checkedAll)
-        if(!checkedAll){
-            if(filteredData.length === matGrpData.length){
-                matGrpData.forEach((item) => {
-                    item.checked = !item.checked
-                    if(item.checked === true)
-                        trueArr.push(item.Matkl)
-                })
-            
-                matGrpData.forEach((item) => {
-                    if(item.checked === false)
-                        item.checked = true
-                })
-            
-                setCheckedMatGrp(matGrpData.filter((item) => item.checked))
-                setFilteredData(matGrpData)
-            }
-            else{
-                filteredData.forEach((item) => {
-                    item.checked = !item.checked
-                    if(item.checked === true)
-                        trueArr.push(item.Matkl)
-                })
-
-                filteredData.forEach((item) => {
-                    if(item.checked === false)
-                        item.checked = true
-                })
-
-                setCheckedMatGrp(filteredData.filter((item) => item.checked))
-                setFilteredData(filteredData)
-            }
-
-        }
-        else{
-            filteredData.forEach((item) => {
-                item.checked = false
-            })      
-            setCheckedAll(false)      
-        }
-    }
-
     return (
         <View flex={1}>
-            <SearchBar
-                value={search}
-                inputStyle={{backgroundColor:"#fff", borderRadius:15}}
-                containerStyle={{backgroundColor:"rgb(247,247,247)"}}
-                inputContainerStyle={{backgroundColor:"rgb(247,247,247)"}}
-                placeholder="Search.."
-                round
-                lightTheme
-                onChangeText={changeTextHandle}/>
-                <CheckBox containerStyle={style.flatListItem} checked={checkedAll} title="Select All" onPress={handleSelectAll}/>
-                <FlatList 
-                    data={filteredData}
-                    keyExtractor={(item,index) => 'key'+index}
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={ListViewType}
-                />
+            <SearchBarForCheckboxes value={materialGroupSearchValue} onSearch={materialGroupSearchHandler}/>
+            <SelectAllCheckbox onChecked={handleSelectAll} isChecked={checkedAll}/> 
+            <FlatList 
+                data={filteredMaterialGroups}
+                keyExtractor={(item,index) => 'key'+index}
+                showsHorizontalScrollIndicator={false}
+                renderItem={ListViewType}
+            />
         </View>
     );
 }
