@@ -4,7 +4,7 @@ import { View, Platform, FlatList } from "react-native";
 import { CheckBox, SearchBar } from "react-native-elements";
 import SearchBarForCheckboxes from "../components/SearchBarForCheckboxes";
 import SelectAllCheckbox from "../components/SelectAllCheckbox";
-import useChange from "../hooks/use-change";
+import useChecked from "../hooks/use-checked";
 import useSearch from "../hooks/use-search";
 import useSelectAll from "../hooks/use-select-all"; 
 import style from '../css/flatlistItem.component.style.js';
@@ -16,7 +16,7 @@ function PlantsPage() {
     [checkedAll, setCheckedAll]
   ] = [useState([]), useState([]), useState(false)]
 
-  const { handleOnChange: handleOnChange } = useChange(setCheckedAll, plants, setPlants, filteredPlants, setFilteredPlants)
+  const { handleOnChange: handleOnChange } = useChecked(setCheckedAll, plants, setPlants, filteredPlants, setFilteredPlants)
   const { handleSelectAll: handleSelectAll } = useSelectAll(checkedAll, setCheckedAll, plants, setPlants, filteredPlants, setFilteredPlants)
   const { searchHandler: plantSearchHandler, searchValue: plantSearchValue } = useSearch(setCheckedAll, plants, setFilteredPlants)
 

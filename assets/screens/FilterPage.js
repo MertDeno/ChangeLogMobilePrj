@@ -3,8 +3,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Header } from 'react-native-elements';
 import { NavigateRow, SectionRow, SettingsPage } from 'react-native-settings-view';
 import Icon from 'react-native-vector-icons/Feather';
-import { useSelector } from "react-redux"
-
 
 function FilterPage({ navigation }) {
     const materialNumberPage = () => navigation.navigate("MaterialNumberPage")
@@ -16,8 +14,7 @@ function FilterPage({ navigation }) {
     const SalesOrganizationPage = () => navigation.navigate("SalesOrganizationPage");
     const changedAtPage = () => navigation.navigate("ChangedAtPage");
     const changedByPage = () => navigation.navigate("ChangedByPage");
-    const selectedItems = useSelector(state => state.changeLog.checkedElements)
-    console.log(selectedItems)
+
     return (
         <SettingsPage backgroundColor="rgb(247,247,247)" scrollEnabled={false}>
             <Header backgroundColor='rgb(53,74,95)' centerComponent={{ text: "Filter Page", style: { color: "#fff", marginTop: 5, fontSize: 15 } }}

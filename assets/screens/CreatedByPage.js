@@ -4,7 +4,7 @@ import { CheckBox } from 'react-native-elements';
 import SearchBarForCheckboxes from '../components/SearchBarForCheckboxes';
 import SelectAllCheckbox from '../components/SelectAllCheckbox';
 import style from '../css/flatlistItem.component.style.js';
-import useChange from '../hooks/use-change';
+import useChecked from '../hooks/use-checked';
 import useSearch from '../hooks/use-search';
 import useSelectAll from '../hooks/use-select-all';
 
@@ -15,7 +15,7 @@ function CreatedByPage() {
         [checkedAll,setCheckedAll]
     ] = [useState([]), useState([]), useState(false)]
 
-    const { handleOnChange: handleOnChange } = useChange(setCheckedAll, creators, setCreators, filteredCreators, setFilteredCreators)
+    const { handleOnChange: handleOnChange } = useChecked(setCheckedAll, creators, setCreators, filteredCreators, setFilteredCreators)
     const { handleSelectAll: handleSelectAll } = useSelectAll(checkedAll, setCheckedAll, creators, setCreators, filteredCreators, setFilteredCreators)
     const { searchValue: creatorValue, searchHandler: searchCreatorHandler} = useSearch(setCheckedAll, creators, setFilteredCreators)
 

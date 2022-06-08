@@ -1,11 +1,10 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Platform, View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import SearchBarForCheckboxes from '../components/SearchBarForCheckboxes';
 import SelectAllCheckbox from '../components/SelectAllCheckbox';
 import style from '../css/flatlistItem.component.style.js';
-import useChange from '../hooks/use-change';
+import useChecked from '../hooks/use-checked';
 import useSearch from '../hooks/use-search';
 import useSelectAll from '../hooks/use-select-all';
 
@@ -17,7 +16,7 @@ function MaterialGroupPage(props) {
     ] = [useState([]), useState([]), useState(false)]
 
     const { handleSelectAll: handleSelectAll } = useSelectAll(checkedAll, setCheckedAll, materialGroups, setMaterialGroups, filteredMaterialGroups, setFilteredMaterialGroups)
-    const { handleOnChange: handleOnChange } = useChange(setCheckedAll, materialGroups, setMaterialGroups, filteredMaterialGroups, setFilteredMaterialGroups) 
+    const { handleOnChange: handleOnChange } = useChecked(setCheckedAll, materialGroups, setMaterialGroups, filteredMaterialGroups, setFilteredMaterialGroups) 
     const { searchValue: materialGroupSearchValue, searchHandler: materialGroupSearchHandler } = useSearch(setCheckedAll, materialGroups, setFilteredMaterialGroups)
 
     var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMatklSet") : ("https://8567-24-133-107-93.eu.ngrok.io/EtMatklSet")
@@ -35,6 +34,7 @@ function MaterialGroupPage(props) {
                     key:Math.random().toString()
                 }
             ))
+            
             setMaterialGroups(fetchedMaterialGroupData)
             setFilteredMaterialGroups(fetchedMaterialGroupData)
         }

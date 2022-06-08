@@ -3,7 +3,7 @@ import { View, Platform, FlatList } from "react-native";
 import { CheckBox} from "react-native-elements";
 import SearchBarForCheckboxes from "../components/SearchBarForCheckboxes";
 import SelectAllCheckbox from "../components/SelectAllCheckbox";
-import useChange from "../hooks/use-change";
+import useChecked from "../hooks/use-checked";
 import useSearch from "../hooks/use-search";
 import useSelectAll from "../hooks/use-select-all";
 import style from '../css/flatlistItem.component.style.js';
@@ -13,7 +13,7 @@ function SalesOrganizationPage(props) {
   const [salesOrganizations, setSalesOrganizations] = useState([]);
   const [isCheckedAll, setIsCheckedAll] = useState();
 
-  const { handleOnChange: handleOnChange } = useChange(setIsCheckedAll, salesOrganizations, setSalesOrganizations, filteredSalesOrganizations, setFilteredSalesOrganizations)
+  const { handleOnChange: handleOnChange } = useChecked(setIsCheckedAll, salesOrganizations, setSalesOrganizations, filteredSalesOrganizations, setFilteredSalesOrganizations)
   const { searchHandler: searchSalesOrganizationHandler, searchValue: salesOrganizationValue } = useSearch(setIsCheckedAll, salesOrganizations, setFilteredSalesOrganizations)
   const { handleSelectAll: handleSelectAll } = useSelectAll(isCheckedAll, setIsCheckedAll, salesOrganizations, setSalesOrganizations, filteredSalesOrganizations, setFilteredSalesOrganizations)
 
