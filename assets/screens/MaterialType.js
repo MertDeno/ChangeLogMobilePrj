@@ -16,10 +16,17 @@ function MaterialType(props) {
         [filteredMaterialTypes, setFilteredMaterialTypes]
     ] = [useState([]), useState([])]
 
+<<<<<<< HEAD
     const isCheckedAll = useSelector(state => state.changeLog.isAllSelected)
     const { handleSelectAll: handleSelectAll } = useSelectAll(materialTypes, filteredMaterialTypes, setFilteredMaterialTypes)
     const { searchValue: materialSearchValue, searchHandler: materialSearchHandler } = useSearch(materialTypes, setFilteredMaterialTypes)
     const { handleOnChange: handleOnChange } = useChecked(materialTypes, setMaterialTypes, filteredMaterialTypes, setFilteredMaterialTypes)
+=======
+    const { handleSelectAll: handleSelectAll } = useSelectAll(checkedAll, setCheckedAll, materialTypes, filteredMaterialTypes, setFilteredMaterialTypes)
+    const { searchValue: materialSearchValue, searchHandler: materialSearchHandler } = useSearch(setCheckedAll, materialTypes, setFilteredMaterialTypes)
+    const { handleOnChange: handleOnChange } = useChecked(setCheckedAll, materialTypes, setMaterialTypes, filteredMaterialTypes, setFilteredMaterialTypes)
+    const fetchedElements = useSelector(state => state.changeLog.fetchedElements)
+>>>>>>> 9b1199f4 (Only updates with selecting Material Types)
     const dispatch = useDispatch()
 
     let baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMtartSet") : ("https://7333-212-252-137-37.eu.ngrok.io/EtMtartSet")
@@ -50,10 +57,14 @@ function MaterialType(props) {
                 }
             ))
             
+<<<<<<< HEAD
             dispatch(changeLogActions.setFetchedElements(fetchedMaterialType))
             dispatch(changeLogActions.setCheckedAllAfterRendering(fetchedMaterialType))
+=======
+>>>>>>> 9b1199f4 (Only updates with selecting Material Types)
             setMaterialTypes(fetchedMaterialType)
             setFilteredMaterialTypes(fetchedMaterialType)
+            fetchedElements.length === 0 && dispatch(changeLogActions.setFetchedElements(fetchedMaterialType))
         }
         catch(error) {
             console.log(error)
@@ -75,7 +86,7 @@ function MaterialType(props) {
             <SearchBarForCheckboxes value={materialSearchValue} onSearch={materialSearchHandler}/>
             <SelectAllCheckbox onChecked={handleSelectAll} isChecked={isCheckedAll}/>            
                 <FlatList 
-                    data={filteredMaterialTypes}
+                    data={fetchedElements.length > 0 ? fetchedElements : filteredMaterialTypes}
                     showsHorizontalScrollIndicator={false}
                     alwaysBounceHorizontal={false}
                     renderItem={ListViewType}

@@ -1,15 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 const initialChangeLogState = { checkedElements: [], isAllSelected: false, searchValue: '' }
 =======
 const initialChangeLogState = { checkedElements: [], sPath: '', sOperator: '', value: '' }
 >>>>>>> a293057e (MaterialType.js)
+=======
+const initialChangeLogState = { checkedElements: [], itemChecked: false, fetchedElements: [] }
+>>>>>>> 9b1199f4 (Only updates with selecting Material Types)
 
 const changeLogSlice =  createSlice({
     name: 'ChangeLogSlice',
     initialState: initialChangeLogState,
     reducers: ({
+<<<<<<< HEAD
 <<<<<<< HEAD
         addCheckedElements(state, action){
             debugger
@@ -64,6 +69,35 @@ const changeLogSlice =  createSlice({
             debugger
             state.checkedElements.push(action.payload)
 >>>>>>> a293057e (MaterialType.js)
+=======
+        addCheckedElements(state, action){
+            debugger
+            const existingItem = state.checkedElements.find((item) => 
+                item.id === action.payload.id    
+            )
+
+            if(!existingItem){
+                state.checkedElements.push(action.payload)
+            }
+            
+            else {
+                state.checkedElements = state.checkedElements.filter(item=>item.id !== action.payload.id)
+            }
+        },
+        setFetchedElements(state, action){
+            debugger
+            if(state.fetchedElements.length === 0){
+                state.fetchedElements = action.payload
+            }
+        },
+        updateFetchedElement(state, action){
+            debugger
+            const existingItem = state.fetchedElements.find(item=>
+                item.Mtart === action.payload.Mtart
+            )
+
+            existingItem.checked = !existingItem.checked
+>>>>>>> 9b1199f4 (Only updates with selecting Material Types)
         }
     })
 })
