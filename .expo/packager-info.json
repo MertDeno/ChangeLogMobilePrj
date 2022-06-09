@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
   "expoServerPort": 19000,
   "devToolsPort": 19002,
-=======
-  "devToolsPort": 19002,
-  "expoServerPort": 19000,
->>>>>>> a293057e (MaterialType.js)
   "packagerPort": 19000,
   "packagerPid": null,
   "expoServerNgrokUrl": null,

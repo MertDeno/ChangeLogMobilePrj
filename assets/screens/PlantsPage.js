@@ -55,6 +55,7 @@ function PlantsPage() {
       dispatch(changeLogActions.setCheckedAllAfterRendering(fetchedPlants))
       setFilteredPlants(fetchedPlants);
       setPlants(fetchedPlants);
+      dispatch(changeLogActions.setFetchedElements(fetchedPlants))
     } catch (error) {
       console.log(error);
     }

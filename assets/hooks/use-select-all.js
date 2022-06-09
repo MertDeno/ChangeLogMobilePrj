@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux"
 import { changeLogActions } from "../redux/change-log-reducers"
 
@@ -33,38 +31,10 @@ const useSelectAll = (list, filteredList, setFilteredList) => {
                     }))  
                 })  
 
-=======
-const useSelectAll = (checkedAll, setCheckedAll, list, setList, filteredList, setFilteredList) => {
-=======
-const useSelectAll = (checkedAll, setCheckedAll, list, filteredList, setFilteredList) => {
->>>>>>> 9b1199f4 (Only updates with selecting Material Types)
-    function handleSelectAll(){
-        setCheckedAll(!checkedAll)
-
-        if(!checkedAll){
-            debugger
-            if(filteredList.length === list.length){
-                list.forEach((item) => {
-                    item.checked = !item.checked
-                })
-        
-                list.forEach((item) => {
-                    if(!item.checked)
-                        item.checked = true
-                })
-<<<<<<< HEAD
-    
-                setList(list.filter((item) => item.checked))
-                setFilteredList(list)
->>>>>>> a293057e (MaterialType.js)
-=======
->>>>>>> 9b1199f4 (Only updates with selecting Material Types)
             }
             else{
                 filteredList.forEach((item) => {
                     item.checked = !item.checked
-<<<<<<< HEAD
-<<<<<<< HEAD
                 })
     
                 filteredList.forEach((item) => {
@@ -100,32 +70,6 @@ const useSelectAll = (checkedAll, setCheckedAll, list, filteredList, setFiltered
         }
 
         setFilteredList(filteredList)
-=======
-/*                     if(item.checked)
-                        checkedItems.push(item.Mtart) */
-=======
->>>>>>> 9b1199f4 (Only updates with selecting Material Types)
-                })
-    
-                filteredList.forEach((item) => {
-                    if(!item.checked)
-                        item.checked = true
-                })                
-            }              
-        }
-        else{
-            filteredList.forEach((item) => {
-                item.checked = !item.checked
-            })
-
-            setCheckedAll(false)
-        }
-<<<<<<< HEAD
->>>>>>> a293057e (MaterialType.js)
-=======
-
-        setFilteredList(filteredList)
->>>>>>> 9b1199f4 (Only updates with selecting Material Types)
     }
 
     return {

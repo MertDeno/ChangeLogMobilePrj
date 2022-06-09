@@ -12,10 +12,6 @@
   "dependencies": {
     "@react-native-community/checkbox": "^0.5.10",
     "@react-native-community/datetimepicker": "4.0.0",
-<<<<<<< HEAD
-
-=======
->>>>>>> a293057e (MaterialType.js)
     "@react-native-picker/picker": "2.2.1",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
@@ -23,11 +19,6 @@
     "@ui5/webcomponents": "^1.1.2",
     "@ui5/webcomponents-fiori": "^1.1.2",
     "@ui5/webcomponents-react": "^0.21.2",
-
-    "@react-native-picker/picker": "^2.4.0",
-    "@react-navigation/native": "^6.0.8",
-    "@react-navigation/native-stack": "^6.5.0",
-
     "axios": "^0.26.0",
     "expo": "~44.0.0",
     "expo-network": "~4.1.0",
@@ -37,17 +28,12 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
-
     "react-native-calendar-picker": "^7.1.2",
     "react-native-calendar-range-picker": "^1.5.3",
     "react-native-date-picker": "^4.2.0",
     "react-native-daterange-picker": "^1.5.1",
-
-    "react-native-calendar-range-picker": "^1.5.3",
-    "react-native-date-picker": "^4.2.0",
     "react-native-dotenv": "^3.3.1",
     "react-native-element-dropdown": "^1.8.2",
-
     "react-native-elements": "^3.4.2",
     "react-native-fetch-blob": "^0.10.8",
     "react-native-multiple-select-list": "^1.0.4",

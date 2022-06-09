@@ -42,6 +42,7 @@ function MaterialGroupPage(props) {
             dispatch(changeLogActions.setCheckedAllAfterRendering(fetchedMaterialGroupData))
             setMaterialGroups(fetchedMaterialGroupData)
             setFilteredMaterialGroups(fetchedMaterialGroupData)
+            dispatch(changeLogActions.setFetchedElements(fetchedMaterialGroupData))
         }
         catch(error) {
             console.log(error)
