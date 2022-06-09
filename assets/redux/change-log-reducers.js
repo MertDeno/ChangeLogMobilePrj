@@ -22,14 +22,27 @@ const changeLogSlice =  createSlice({
         },
         setFetchedElements(state, action){
             debugger
-            if(state.fetchedElements.length === 0){
-                state.fetchedElements = action.payload
+            if(state.checkedElements.length !== 0){
+                const newArray = action.payload
+                const newArrayChecked = state.checkedElements
+
+                newArray.forEach(element => {
+                    for (let index = 0; index < newArrayChecked.length; index++) {
+                        const item = newArrayChecked[index];
+                        if(element[element.mainAttribute] === item.oValue1){
+                            element.checked = true
+                        }
+                    }
+                });
+            }
+            else{
+                return
             }
         },
         updateFetchedElement(state, action){
             debugger
             const existingItem = state.fetchedElements.find(item=>
-                item.Mtart === action.payload.Mtart
+                item.sPath === action.payload.sPath
             )
 
             existingItem.checked = !existingItem.checked

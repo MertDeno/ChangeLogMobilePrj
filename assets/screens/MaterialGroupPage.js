@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Platform, View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
+import { useDispatch, useSelector } from 'react-redux';
 import SearchBarForCheckboxes from '../components/SearchBarForCheckboxes';
 import SelectAllCheckbox from '../components/SelectAllCheckbox';
 import style from '../css/flatlistItem.component.style.js';
 import useChecked from '../hooks/use-checked';
 import useSearch from '../hooks/use-search';
 import useSelectAll from '../hooks/use-select-all';
+import { changeLogActions } from '../redux/change-log-reducers';
 
 function MaterialGroupPage(props) {
     const [
@@ -18,6 +20,7 @@ function MaterialGroupPage(props) {
     const { handleSelectAll: handleSelectAll } = useSelectAll(checkedAll, setCheckedAll, materialGroups, setMaterialGroups, filteredMaterialGroups, setFilteredMaterialGroups)
     const { handleOnChange: handleOnChange } = useChecked(setCheckedAll, materialGroups, setMaterialGroups, filteredMaterialGroups, setFilteredMaterialGroups) 
     const { searchValue: materialGroupSearchValue, searchHandler: materialGroupSearchHandler } = useSearch(setCheckedAll, materialGroups, setFilteredMaterialGroups)
+    const dispatch = useDispatch()
 
     var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMatklSet") : ("https://8567-24-133-107-93.eu.ngrok.io/EtMatklSet")
 
@@ -37,6 +40,7 @@ function MaterialGroupPage(props) {
             
             setMaterialGroups(fetchedMaterialGroupData)
             setFilteredMaterialGroups(fetchedMaterialGroupData)
+            dispatch(changeLogActions.setFetchedElements(fetchedMaterialGroupData))
         }
         catch(error) {
             console.log(error)

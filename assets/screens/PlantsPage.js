@@ -1,13 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { View, Platform, FlatList } from "react-native";
-import { CheckBox, SearchBar } from "react-native-elements";
+import { CheckBox } from "react-native-elements";
+import { useDispatch, useSelector } from 'react-redux';
 import SearchBarForCheckboxes from "../components/SearchBarForCheckboxes";
 import SelectAllCheckbox from "../components/SelectAllCheckbox";
 import useChecked from "../hooks/use-checked";
 import useSearch from "../hooks/use-search";
 import useSelectAll from "../hooks/use-select-all"; 
 import style from '../css/flatlistItem.component.style.js';
+import { changeLogActions } from '../redux/change-log-reducers';
 
 function PlantsPage() {
   const[
@@ -19,6 +21,7 @@ function PlantsPage() {
   const { handleOnChange: handleOnChange } = useChecked(setCheckedAll, plants, setPlants, filteredPlants, setFilteredPlants)
   const { handleSelectAll: handleSelectAll } = useSelectAll(checkedAll, setCheckedAll, plants, setPlants, filteredPlants, setFilteredPlants)
   const { searchHandler: plantSearchHandler, searchValue: plantSearchValue } = useSearch(setCheckedAll, plants, setFilteredPlants)
+  const dispatch = useDispatch()
 
   var baseURL = Platform.OS === "android" ? "http://10.0.2.2:8000/EtWerksSet" : "https://8567-24-133-107-93.eu.ngrok.io/EtWerksSet";
   // : process.env.LINK + "/EtWerksSet";
@@ -51,6 +54,7 @@ function PlantsPage() {
 
       setFilteredPlants(fetchedPlants);
       setPlants(fetchedPlants);
+      dispatch(changeLogActions.setFetchedElements(fetchedPlants))
     } catch (error) {
       console.log(error);
     }

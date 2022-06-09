@@ -10,13 +10,12 @@ function useChecked(setCheckedAll, list, setList, filteredList, setFilteredList)
         item.checked = !item.checked
         
         dispatch(changeLogActions.addCheckedElements({
-            id: item.Mtart,
-            Mtart: item.Mtart,
-            Mtbez: item.Mtbez,
+            id: item[item.mainAttribute],
+            sPath: item.mainAttribute,
+            oValue1: item[item.mainAttribute],
+            operator: 'EQ',
             checked: item.checked
-        }))        
-        
-        dispatch(changeLogActions.updateFetchedElement(item))   
+        }))           
     }
 
     function setAllLists(list, filteredList){
