@@ -1,8 +1,7 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { changeLogActions } from "../redux/change-log-reducers"
 
-function useChecked(setCheckedAll, list, setList, filteredList, setFilteredList){
-    let checkedElements = []
+function useChecked(list, setList, filteredList, setFilteredList){
     const dispatch = useDispatch()
 
     const manipulateListItem = (item) => {
@@ -17,36 +16,28 @@ function useChecked(setCheckedAll, list, setList, filteredList, setFilteredList)
             checked: item.checked
         }))           
     }
-
+ 
     function setAllLists(list, filteredList){
         debugger
         setList(list.filter((item) => item))               
         setFilteredList(filteredList)     
     }
 
-    function isAllElementsChecked({checkedElements, list, filteredList}){
-        let elements = {checkedElements, list, filteredList}
-        let checkedElementsLength = elements.checkedElements.length
-        let listLength = elements.list.length
-        let filteredListLength = elements.filteredList.length
-    
-        return checkedElementsLength === listLength || checkedElementsLength === filteredListLength
-    }
-
     function handleOnChange(itemToBeChecked){
         debugger
         filteredList.forEach((item) => {
             if(itemToBeChecked === item[list[0].mainAttribute]){
+                debugger
                 manipulateListItem(item)
-                setCheckedAll(false)
+                dispatch(changeLogActions.setCheckedAllAfterRendering(filteredList))
             }
             else{
                 return item.checked
             }
         })
-
+        
+//        dispatch(changeLogActions.setCheckedAll(filteredList.every(changeLogActions.setCheckedAllAfterRendering)))
         setAllLists(list, filteredList)
-        isAllElementsChecked({checkedElements, list, filteredList}) ? setCheckedAll(true) : false
     }
  
     return {

@@ -1,9 +1,15 @@
-const useSelectAll = (checkedAll, setCheckedAll, list, filteredList, setFilteredList) => {
-    function handleSelectAll(){
-        setCheckedAll(!checkedAll)
+import { useDispatch, useSelector } from "react-redux"
+import { changeLogActions } from "../redux/change-log-reducers"
 
+const useSelectAll = (list, filteredList, setFilteredList) => {
+    const dispatch = useDispatch()
+    const checkedAll = useSelector(state => state.changeLog.isAllSelected)
+    
+    function handleSelectAll(){
+        dispatch(changeLogActions.setCheckedAll(!checkedAll))
+
+        debugger
         if(!checkedAll){
-            debugger
             if(filteredList.length === list.length){
                 list.forEach((item) => {
                     item.checked = !item.checked
@@ -13,6 +19,18 @@ const useSelectAll = (checkedAll, setCheckedAll, list, filteredList, setFiltered
                     if(!item.checked)
                         item.checked = true
                 })
+
+                list.forEach((item) => {
+                    debugger
+                    dispatch(changeLogActions.addCheckedElements({
+                        id: item[item.mainAttribute],
+                        sPath: item.mainAttribute,
+                        oValue1: item[item.mainAttribute],
+                        operator: 'EQ',
+                        checked: item.checked
+                    }))  
+                })  
+
             }
             else{
                 filteredList.forEach((item) => {
@@ -23,6 +41,16 @@ const useSelectAll = (checkedAll, setCheckedAll, list, filteredList, setFiltered
                     if(!item.checked)
                         item.checked = true
                 })                
+
+                filteredList.forEach((item) => {
+                    dispatch(changeLogActions.addCheckedElements({
+                        id: item[item.mainAttribute],
+                        sPath: item.mainAttribute,
+                        oValue1: item[item.mainAttribute],
+                        operator: 'EQ',
+                        checked: item.checked
+                    }))  
+                })            
             }              
         }
         else{
@@ -30,7 +58,15 @@ const useSelectAll = (checkedAll, setCheckedAll, list, filteredList, setFiltered
                 item.checked = !item.checked
             })
 
-            setCheckedAll(false)
+            filteredList.forEach((item) => {
+                dispatch(changeLogActions.addCheckedElements({
+                    id: item[item.mainAttribute],
+                    sPath: item.mainAttribute,
+                    oValue1: item[item.mainAttribute],
+                    operator: 'EQ',
+                    checked: item.checked
+                }))  
+            })               
         }
 
         setFilteredList(filteredList)

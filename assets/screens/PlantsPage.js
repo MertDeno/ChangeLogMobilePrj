@@ -14,17 +14,16 @@ import { changeLogActions } from '../redux/change-log-reducers';
 function PlantsPage() {
   const[
     [filteredPlants, setFilteredPlants],
-    [plants, setPlants],
-    [checkedAll, setCheckedAll]
-  ] = [useState([]), useState([]), useState(false)]
+    [plants, setPlants]
+  ] = [useState([]), useState([])]
 
-  const { handleOnChange: handleOnChange } = useChecked(setCheckedAll, plants, setPlants, filteredPlants, setFilteredPlants)
-  const { handleSelectAll: handleSelectAll } = useSelectAll(checkedAll, setCheckedAll, plants, setPlants, filteredPlants, setFilteredPlants)
-  const { searchHandler: plantSearchHandler, searchValue: plantSearchValue } = useSearch(setCheckedAll, plants, setFilteredPlants)
+  const isCheckedAll = useSelector(state => state.changeLog.isAllSelected)
+  const { handleOnChange: handleOnChange } = useChecked(plants, setPlants, filteredPlants, setFilteredPlants)
+  const { handleSelectAll: handleSelectAll } = useSelectAll(plants, filteredPlants, setFilteredPlants)
+  const { searchHandler: plantSearchHandler, searchValue: plantSearchValue } = useSearch(plants, setFilteredPlants)
   const dispatch = useDispatch()
 
   var baseURL = Platform.OS === "android" ? "http://10.0.2.2:8000/EtWerksSet" : "https://8567-24-133-107-93.eu.ngrok.io/EtWerksSet";
-  // : process.env.LINK + "/EtWerksSet";
 
   const ListViewType = ({ item, index }) => {
     return (
@@ -51,10 +50,11 @@ function PlantsPage() {
           key:Math.random().toString()
         }
       ))
-
+      
+      dispatch(changeLogActions.setFetchedElements(fetchedPlants))
+      dispatch(changeLogActions.setCheckedAllAfterRendering(fetchedPlants))
       setFilteredPlants(fetchedPlants);
       setPlants(fetchedPlants);
-      dispatch(changeLogActions.setFetchedElements(fetchedPlants))
     } catch (error) {
       console.log(error);
     }
@@ -73,7 +73,7 @@ function PlantsPage() {
   return (
     <View flex={1}>
       <SearchBarForCheckboxes value={plantSearchValue} onSearch={plantSearchHandler} />
-      <SelectAllCheckbox onChecked={handleSelectAll} isChecked={checkedAll}/>
+      <SelectAllCheckbox onChecked={handleSelectAll} isChecked={isCheckedAll}/>
         <FlatList
           data={filteredPlants}
           showsHorizontalScrollIndicator={false}

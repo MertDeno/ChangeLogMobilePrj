@@ -13,11 +13,11 @@ import { changeLogActions } from '../redux/change-log-reducers';
 function SalesOrganizationPage(props) {
   const [filteredSalesOrganizations, setFilteredSalesOrganizations] = useState([]);
   const [salesOrganizations, setSalesOrganizations] = useState([]);
-  const [isCheckedAll, setIsCheckedAll] = useState();
 
-  const { handleOnChange: handleOnChange } = useChecked(setIsCheckedAll, salesOrganizations, setSalesOrganizations, filteredSalesOrganizations, setFilteredSalesOrganizations)
-  const { searchHandler: searchSalesOrganizationHandler, searchValue: salesOrganizationValue } = useSearch(setIsCheckedAll, salesOrganizations, setFilteredSalesOrganizations)
-  const { handleSelectAll: handleSelectAll } = useSelectAll(isCheckedAll, setIsCheckedAll, salesOrganizations, setSalesOrganizations, filteredSalesOrganizations, setFilteredSalesOrganizations)
+  const checkedAll = useSelector(state => state.changeLog.isAllSelected)
+  const { handleOnChange: handleOnChange } = useChecked(salesOrganizations, setSalesOrganizations, filteredSalesOrganizations, setFilteredSalesOrganizations)
+  const { searchHandler: searchSalesOrganizationHandler, searchValue: salesOrganizationValue } = useSearch(salesOrganizations, setFilteredSalesOrganizations)
+  const { handleSelectAll: handleSelectAll } = useSelectAll(salesOrganizations, filteredSalesOrganizations, setFilteredSalesOrganizations)
   const dispatch = useDispatch()
 
   var baseURL = Platform.OS === "android" ? "http://10.0.2.2:8000/EtVkorgSet" : "https://8567-24-133-107-93.eu.ngrok.io/EtVkorgSet"
@@ -49,9 +49,10 @@ function SalesOrganizationPage(props) {
         )
       )
 
+      dispatch(changeLogActions.setFetchedElements(fetchedSalesOrganizations))
+      dispatch(changeLogActions.setCheckedAllAfterRendering(fetchedSalesOrganizations))
       setSalesOrganizations(fetchedSalesOrganizations)
       setFilteredSalesOrganizations(fetchedSalesOrganizations)
-      dispatch(changeLogActions.setFetchedElements(fetchedSalesOrganizations))
 
     } catch (error) {
       console.log(error)
@@ -72,7 +73,7 @@ function SalesOrganizationPage(props) {
   return (
     <View flex={1}>
       <SearchBarForCheckboxes value={salesOrganizationValue} onSearch={searchSalesOrganizationHandler} />
-      <SelectAllCheckbox onChecked={handleSelectAll} isChecked={isCheckedAll} />
+      <SelectAllCheckbox onChecked={handleSelectAll} isChecked={checkedAll} />
         <FlatList
           data={filteredSalesOrganizations}
           showsHorizontalScrollIndicator={false}

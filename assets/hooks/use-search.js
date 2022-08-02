@@ -1,6 +1,12 @@
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { changeLogActions } from "../redux/change-log-reducers"
+
 let searchValue = ""
 
-function useSearch(setCheckedAll, list, setFilteredList){
+function useSearch(list, setFilteredList){
+    const dispatch = useDispatch()
+
     function searchHandler(enteredValue){
         debugger
         searchValue = enteredValue.toUpperCase()
@@ -11,17 +17,21 @@ function useSearch(setCheckedAll, list, setFilteredList){
         for (let index = 0; index < newData.length; index++) {
             const item = newData[index];
             if(!item.checked){
-                setCheckedAll(false)
+                dispatch(changeLogActions.setCheckedAll(false))
                 break
             }
             else{
-                setCheckedAll(true)
+                dispatch(changeLogActions.setCheckedAll(true))
             }
         }
     
         setFilteredList(newData)  
     }
     
+    useEffect(() => {
+        searchValue = ''
+    },[])
+
     return {
         searchValue,
         searchHandler

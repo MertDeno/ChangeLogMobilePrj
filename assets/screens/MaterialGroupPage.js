@@ -13,13 +13,13 @@ import { changeLogActions } from '../redux/change-log-reducers';
 function MaterialGroupPage(props) {
     const [
         [materialGroups,setMaterialGroups], 
-        [filteredMaterialGroups, setFilteredMaterialGroups], 
-        [checkedAll, setCheckedAll],
-    ] = [useState([]), useState([]), useState(false)]
+        [filteredMaterialGroups, setFilteredMaterialGroups],
+    ] = [useState([]), useState([])]
 
-    const { handleSelectAll: handleSelectAll } = useSelectAll(checkedAll, setCheckedAll, materialGroups, setMaterialGroups, filteredMaterialGroups, setFilteredMaterialGroups)
-    const { handleOnChange: handleOnChange } = useChecked(setCheckedAll, materialGroups, setMaterialGroups, filteredMaterialGroups, setFilteredMaterialGroups) 
-    const { searchValue: materialGroupSearchValue, searchHandler: materialGroupSearchHandler } = useSearch(setCheckedAll, materialGroups, setFilteredMaterialGroups)
+    const isCheckedAll = useSelector(state => state.changeLog.isAllSelected)
+    const { handleSelectAll: handleSelectAll } = useSelectAll(materialGroups, filteredMaterialGroups, setFilteredMaterialGroups)
+    const { handleOnChange: handleOnChange } = useChecked(materialGroups, setMaterialGroups, filteredMaterialGroups, setFilteredMaterialGroups) 
+    const { searchValue: materialGroupSearchValue, searchHandler: materialGroupSearchHandler } = useSearch(materialGroups, setFilteredMaterialGroups)
     const dispatch = useDispatch()
 
     var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMatklSet") : ("https://8567-24-133-107-93.eu.ngrok.io/EtMatklSet")
@@ -38,9 +38,10 @@ function MaterialGroupPage(props) {
                 }
             ))
             
+            dispatch(changeLogActions.setFetchedElements(fetchedMaterialGroupData))
+            dispatch(changeLogActions.setCheckedAllAfterRendering(fetchedMaterialGroupData))
             setMaterialGroups(fetchedMaterialGroupData)
             setFilteredMaterialGroups(fetchedMaterialGroupData)
-            dispatch(changeLogActions.setFetchedElements(fetchedMaterialGroupData))
         }
         catch(error) {
             console.log(error)
@@ -71,7 +72,7 @@ function MaterialGroupPage(props) {
     return (
         <View flex={1}>
             <SearchBarForCheckboxes value={materialGroupSearchValue} onSearch={materialGroupSearchHandler}/>
-            <SelectAllCheckbox onChecked={handleSelectAll} isChecked={checkedAll}/> 
+            <SelectAllCheckbox onChecked={handleSelectAll} isChecked={isCheckedAll}/> 
             <FlatList 
                 data={filteredMaterialGroups}
                 keyExtractor={(item,index) => 'key'+index}

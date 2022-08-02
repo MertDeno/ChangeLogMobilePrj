@@ -13,13 +13,13 @@ import { changeLogActions } from '../redux/change-log-reducers';
 function ChangedByPage(props) {
     const [
         [changers, setChangers], 
-        [filteredChangers, setFilteredChangers],
-        [checkedAll,setCheckedAll]
-    ] = [useState([]), useState([]), useState(false)]
+        [filteredChangers, setFilteredChangers]
+    ] = [useState([]), useState([])]
 
-    const { handleOnChange: handleOnChange } = useChecked(setCheckedAll, changers, setChangers, filteredChangers, setFilteredChangers)
-    const { handleSelectAll: handleSelectAll } = useSelectAll(checkedAll, setCheckedAll, changers, setChangers, filteredChangers, setFilteredChangers)
-    const { searchValue: creatorValue, searchHandler: searchCreatorHandler} = useSearch(setCheckedAll, changers, setFilteredChangers)
+    const isCheckedAll = useSelector(state => state.changeLog.isAllSelected)
+    const { handleOnChange: handleOnChange } = useChecked(changers, setChangers, filteredChangers, setFilteredChangers)
+    const { handleSelectAll: handleSelectAll } = useSelectAll(changers, filteredChangers, setFilteredChangers)
+    const { searchValue: creatorValue, searchHandler: searchCreatorHandler} = useSearch(changers, setFilteredChangers)
     const dispatch = useDispatch()
 
     var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtFilterPersonalsSet") : ("https://8567-24-133-107-93.eu.ngrok.io/EtFilterPersonalsSet")
@@ -49,9 +49,10 @@ function ChangedByPage(props) {
                 }
             ))
 
+            dispatch(changeLogActions.setFetchedElements(fetchedSAPUsers))
+            dispatch(changeLogActions.setCheckedAllAfterRendering(fetchedSAPUsers))
             setChangers(fetchedSAPUsers)
             setFilteredChangers(fetchedSAPUsers)
-            dispatch(changeLogActions.setFetchedElements(fetchedSAPUsers))
         }
         catch(error) {
             console.log(error)
@@ -71,7 +72,7 @@ function ChangedByPage(props) {
     return (
         <View flex={1}>
             <SearchBarForCheckboxes value={creatorValue} onSearch={searchCreatorHandler}/>
-            <SelectAllCheckbox onChecked={handleSelectAll} isChecked={checkedAll}/>              
+            <SelectAllCheckbox onChecked={handleSelectAll} isChecked={isCheckedAll}/>              
             <FlatList 
                 data={filteredChangers}
                 showsHorizontalScrollIndicator={false}
