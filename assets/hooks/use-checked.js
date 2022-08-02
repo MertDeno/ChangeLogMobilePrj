@@ -1,8 +1,7 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { changeLogActions } from "../redux/change-log-reducers"
 
-function useChecked(setCheckedAll, list, setList, filteredList, setFilteredList){
-    let checkedElements = []
+function useChecked(list, setList, filteredList, setFilteredList){
     const dispatch = useDispatch()
 
     const manipulateListItem = (item) => {
