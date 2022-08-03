@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { View, Platform, FlatList } from "react-native";
 import { CheckBox } from "react-native-elements";
