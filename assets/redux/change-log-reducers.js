@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+<<<<<<< HEAD
 const initialChangeLogState = { checkedElements: [], isAllSelected: false, searchValue: '' }
+=======
+const initialChangeLogState = { checkedElements: [], sPath: '', sOperator: '', value: '' }
+>>>>>>> a293057e (MaterialType.js)
 
 const changeLogSlice =  createSlice({
     name: 'ChangeLogSlice',
     initialState: initialChangeLogState,
     reducers: ({
+<<<<<<< HEAD
         addCheckedElements(state, action){
             debugger
             const existingItem = state.checkedElements.find((item) => 
@@ -54,6 +59,11 @@ const changeLogSlice =  createSlice({
         },
         resetSearchValueToDefault(state, action){
             state.searchValue = action.payload
+=======
+        getCheckedMaterialTypes(state, action){
+            debugger
+            state.checkedElements.push(action.payload)
+>>>>>>> a293057e (MaterialType.js)
         }
     })
 })

@@ -17,13 +17,6 @@ function FilterPage({ navigation }) {
     const changedAtPage = () => navigation.navigate("ChangedAtPage");
     const changedByPage = () => navigation.navigate("ChangedByPage");
 
-    const checkedElements = useSelector(state => state.changeLog.checkedElements)
-    const [isBtnDisabled, setIsBtnDisabled] = useState(false)
-    
-    useEffect(() => {
-        checkedElements.length > 0 ? setIsBtnDisabled(false) : setIsBtnDisabled(true) 
-    }, [checkedElements])
-
     return (
         <SettingsPage backgroundColor="rgb(247,247,247)" scrollEnabled={false}>
             <Header backgroundColor='rgb(53,74,95)' centerComponent={{ text: "Filter Page", style: { color: "#fff", marginTop: 5, fontSize: 15 } }}

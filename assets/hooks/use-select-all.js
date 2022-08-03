@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux"
 import { changeLogActions } from "../redux/change-log-reducers"
 
@@ -31,10 +32,31 @@ const useSelectAll = (list, filteredList, setFilteredList) => {
                     }))  
                 })  
 
+=======
+const useSelectAll = (checkedAll, setCheckedAll, list, setList, filteredList, setFilteredList) => {
+    function handleSelectAll(){
+        setCheckedAll(!checkedAll)
+        if(!checkedAll){
+            if(filteredList.length === list.length){
+                list.forEach((item,index) => {
+                    item.checked = !item.checked
+/*                     if(item.checked)
+                        checkedItems.push(item.attribute) */
+                })
+        
+                list.forEach((item,index) => {
+                    if(!item.checked)
+                        item.checked = true
+                })
+    
+                setList(list.filter((item) => item.checked))
+                setFilteredList(list)
+>>>>>>> a293057e (MaterialType.js)
             }
             else{
                 filteredList.forEach((item) => {
                     item.checked = !item.checked
+<<<<<<< HEAD
                 })
     
                 filteredList.forEach((item) => {
@@ -70,6 +92,26 @@ const useSelectAll = (list, filteredList, setFilteredList) => {
         }
 
         setFilteredList(filteredList)
+=======
+/*                     if(item.checked)
+                        checkedItems.push(item.Mtart) */
+                })
+    
+                filteredList.forEach((item,index) => {
+                    if(!item.checked)
+                        item.checked = true
+                })                
+                setFilteredList(filteredList)                
+            }
+        }
+        else{
+            filteredList.forEach((item,index) => {
+                item.checked = !item.checked
+            })
+            setFilteredList(filteredList)
+            setCheckedAll(false)
+        }
+>>>>>>> a293057e (MaterialType.js)
     }
 
     return {
