@@ -1,8 +1,7 @@
 
 import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker/CalendarPicker';
-
 
 function CreatedAtPage(){
     const [
@@ -14,17 +13,19 @@ function CreatedAtPage(){
             setSelectedEndDate(date)
         }
         else{
-            setSelectedEndDate(null)
             setSelectedStartDate(date)
+            setSelectedEndDate(null)
         }
     }
 
     return (
         <View flex={1}>
-            <CalendarPicker 
+            <CalendarPicker
                 allowRangeSelection={true}
                 scrollable
                 maxDate={Date.now()}
+                todayBackgroundColor="rgb(53,74,95)" 
+                todayTextStyle={{color:"white"}}
                 onDateChange={onDateChange}/>
         </View>
   )

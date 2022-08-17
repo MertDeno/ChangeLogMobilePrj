@@ -22,7 +22,7 @@ function MaterialGroupPage(props) {
     const { searchValue: materialGroupSearchValue, searchHandler: materialGroupSearchHandler } = useSearch(materialGroups, setFilteredMaterialGroups)
     const dispatch = useDispatch()
 
-    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMatklSet") : ("https://8567-24-133-107-93.eu.ngrok.io/EtMatklSet")
+    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMatklSet") : ("https://f755-24-133-107-93.eu.ngrok.io/EtMatklSet")
 
     const fetchApi = async() => {
         const response = await fetch(baseURL)

@@ -18,8 +18,6 @@ function MaterialNumberPage(props) {
   const [filteredData, setFilteredData] = useState([]);
   const [matNumberData, setMatNumberData] = useState([]);
   const [checkedMatNumber, setcheckedMatNumber] = useState();
-  const [isCheckedAll, setIsCheckedAll] = useState();
-  const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState();
 
   const [selectedOption1, setSelectedOption1] = useState("include");
@@ -29,8 +27,9 @@ function MaterialNumberPage(props) {
     rangeMin: "",
     rangeMax: "",
   });
-  const [isShowRanged, setShowRanged] = useState(false);
-  const [isClosed, setIsClosed] = useState(false);
+/*   const [isShowRanged, setShowRanged] = useState(false);
+  const [isClosed, setIsClosed] = useState(false); */
+
   var baseURL =
     Platform.OS === "android"
       ? "http://10.0.2.2:8000/EtMaterialsSet"
@@ -43,30 +42,6 @@ function MaterialNumberPage(props) {
     });
   };
 
-  const handleOnChange = (matnr) => {
-    matNumberData.forEach((item) => {
-      if (matnr === item.Matnr) {
-        item.checked = !item.checked;
-      } else {
-        return item.checked;
-      }
-    });
-    setcheckedMatNumber(matNumberData.filter((item) => item.checked));
-    setFilteredData(matNumberData);
-  };
-  const ListViewType = ({ item, index }) => {
-    return (
-      // Flat List Item
-      <CheckBox
-        containerStyle={styles.flatListItem}
-        onPress={() => {
-          handleOnChange(item.Matnr);
-        }}
-        title={item.Matnr}
-        checked={item.checked}
-      />
-    );
-  };
   const fetchApi = async () => {
     try {
       const matnrRes = await axios.get(baseURL);
@@ -74,10 +49,6 @@ function MaterialNumberPage(props) {
       setMatNumberData(
         matnrRes.data.map((data) => ({ ...data, checked: false }))
       );
-      /*setIsLoading(true)
-            setTimeout(() => {
-                setIsLoading(false)
-            }, 1000)*/
     } catch (error) {
       console.log(error);
     }
@@ -86,6 +57,7 @@ function MaterialNumberPage(props) {
   useEffect(() => {
     fetchApi();
   }, []);
+
   const updateSearch = (search) => {
     if (search) {
       if (selectedOption2 === "contains") {
@@ -94,21 +66,25 @@ function MaterialNumberPage(props) {
           return item.Matnr.includes(search.toUpperCase());
         });
         setFilteredData(newData);
-      } else if (selectedOption2 === "et") {
+      } 
+      else if (selectedOption2 === "et") {
         setSearch(search);
         const newData = matNumberData.filter((item) => {
           return item.Matnr === search.toUpperCase();
         });
         setFilteredData(newData);
-      } else if (selectedOption2 === "between") {
+      } 
+      else if (selectedOption2 === "between") {
         console.log("between");
-      } else if (selectedOption2 === "sw") {
+      } 
+      else if (selectedOption2 === "sw") {
         setSearch(search);
         const newData = matNumberData.filter((item) => {
           return item.Matnr.substring(0, search.length) === search;
         });
         setFilteredData(newData);
-      } else if (selectedOption2 === "ew") {
+      } 
+      else if (selectedOption2 === "ew") {
         setSearch(search);
         const newData = matNumberData.filter((item) => {
           return (
@@ -119,30 +95,35 @@ function MaterialNumberPage(props) {
           );
         });
         setFilteredData(newData);
-      } else if (selectedOption2 === "lt") {
+      } 
+      else if (selectedOption2 === "lt") {
         setSearch(search);
         const newData = matNumberData.filter((item) => {
           return Number(item.Matnr) < Number(search);
         });
         setFilteredData(newData);
-      } else if (selectedOption2 === "ltet") {
+      } 
+      else if (selectedOption2 === "ltet") {
         setSearch(search);
         const newData = matNumberData.filter((item) => {
           return Number(item.Matnr) <= Number(search);
         });
         setFilteredData(newData);
-      } else if (selectedOption2 === "gt") {
+      } 
+      else if (selectedOption2 === "gt") {
         setSearch(search);
         const newData = matNumberData.filter((item) => {
           return Number(item.Matnr) > Number(search);
         });
         setFilteredData(newData);
-      } else if (selectedOption2 === "gtet") {
+      } 
+      else if (selectedOption2 === "gtet") {
         setSearch(search);
         const newData = matNumberData.filter((item) => {
           return Number(item.Matnr) >= Number(search);
         });
-      } else if (selectedOption2 === "empty") {
+      } 
+      else if (selectedOption2 === "empty") {
         const newData = matNumberData.filter((item) => {
           return item.Matnr === null;
         });
@@ -150,28 +131,13 @@ function MaterialNumberPage(props) {
       }
 
       setcheckedMatNumber(filteredData);
-    } else {
+    } 
+    
+    else {
       setcheckedMatNumber("");
     }
   };
-  const handleSelectAll = () => {
-    filteredData.map((item) => {
-      if (isCheckedAll === true) {
-        if (item.checked === true) {
-          item.checked = !item.checked;
-          setIsCheckedAll(false);
-        }
-      } else {
-        if (item.checked === false) {
-          item.checked = !item.checked;
-          setIsCheckedAll(true);
-        }
-      }
-    });
 
-    setcheckedMatNumber(matNumberData.filter((item) => item.checked));
-    setFilteredData(matNumberData);
-  };
   const selectFilter = () => {
     if (selectedOption2 === "between")
       return (
@@ -190,8 +156,7 @@ function MaterialNumberPage(props) {
               textAlign: "center",
               justifyContent: "center",
               alignSelf: "center",
-            }}
-          ></Text>
+            }}/>
           <TextInput
             style={styles.textInputStyle}
             placeholder="Max."
@@ -215,8 +180,8 @@ function MaterialNumberPage(props) {
                 ...selectedFilters,
                 rangeValues.rangeMin + " - " + rangeValues.rangeMax
               )
-            }
-          >
+            }>
+
             <Text
               style={{
                 color: "white",
@@ -225,9 +190,8 @@ function MaterialNumberPage(props) {
                 textAlign: "center",
                 textAlignVertical: "center",
                 padding: 3,
-              }}
-            >
-              Add Filter
+              }}>
+                Add Filter
             </Text>
           </TouchableOpacity>
         </View>
@@ -237,30 +201,29 @@ function MaterialNumberPage(props) {
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
             round
+            onPress={() => setSelectedFilters((selectedFilters) => ["Empty"])}
             style={{
               marginVertical: 5,
               marginHorizontal: 5,
               alignSelf: "center",
               flex: 1,
-            }}
-            onPress={() => setSelectedFilters((selectedFilters) => ["Empty"])}
-          >
-            <Text
-              style={{
-                color: "white",
-                backgroundColor: "rgb(53,74,95)",
-                borderRadius: 10,
-                textAlign: "center",
-                textAlignVertical: "center",
-                padding: 3,
-              }}
-            >
-              Add Filter
-            </Text>
+            }}>
+              <Text
+                style={{
+                  color: "white",
+                  backgroundColor: "rgb(53,74,95)",
+                  borderRadius: 10,
+                  textAlign: "center",
+                  textAlignVertical: "center",
+                  padding: 3,
+                }}>
+                Add Filter
+              </Text>
           </TouchableOpacity>
         </View>
       );
-    } else {
+    } 
+    else {
       return (
         <View style={{ flexDirection: "row" }}>
           <SearchBar
@@ -300,8 +263,7 @@ function MaterialNumberPage(props) {
                     : () => [search]
                   : () => []
               )
-            }
-          >
+            }>
             <Text
               style={{
                 color: "white",
@@ -310,32 +272,15 @@ function MaterialNumberPage(props) {
                 textAlign: "center",
                 textAlignVertical: "center",
                 padding: 3,
-              }}
-            >
-              Add Filter
+              }}>
+                Add Filter
             </Text>
           </TouchableOpacity>
         </View>
       );
     }
   };
-  const addFilter = (filter) => {
-    return (
-      <View style={{ display: "flex", flexDirection: "row" }}>
-        <View round style={{ backgroundColor: "yellow" }}>
-          <Text
-            style={{
-              textAlign: "center",
-              color: "white",
-            }}
-          >
-            {console.log(filter)}
-          </Text>
-          <TouchableOpacity></TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
@@ -343,19 +288,16 @@ function MaterialNumberPage(props) {
           style={{ flex: 1 }}
           selectedValue={selectedOption1}
           onValueChange={(itemValue, itemIndex) =>
-            setSelectedOption1(itemValue)
-          }
-        >
+            setSelectedOption1(itemValue)}>
           <Picker.Item label="Include" value={"include"} />
           <Picker.Item label="Exclude" value={"exclude"} />
         </Picker>
+
         <Picker
           style={{ flex: 2 }}
           selectedValue={selectedOption2}
           onValueChange={(itemValue, itemIndex) =>
-            setSelectedOption2(itemValue)
-          }
-        >
+            setSelectedOption2(itemValue)}>
           <Picker.Item label="contains" value={"contains"} />
           <Picker.Item label="equal to" value={"et"} />
           <Picker.Item label="between" value={"between"} />
@@ -378,17 +320,16 @@ function MaterialNumberPage(props) {
                   style={{
                     marginHorizontal: 2,
                     flexDirection: "row",
-                    backgroundColor: "black",
+                    padding:10,
+                    backgroundColor: "rgb(53,74,95)",
                     borderRadius: 15,
-                  }}
-                >
+                  }}>
                   <Text
                     style={{
                       color: "white",
                       marginHorizontal: 1,
                       textAlignVertical: "center",
-                    }}
-                  >
+                    }}>
                     {item}
                   </Text>
                   <TouchableOpacity
@@ -396,8 +337,7 @@ function MaterialNumberPage(props) {
                       display: "flex",
                       alignItems: "center",
                       borderRadius: 15,
-                    }}
-                  >
+                    }}>
                     <Icon name="close" color={"white"} size={20} />
                   </TouchableOpacity>
                 </View>
@@ -405,26 +345,6 @@ function MaterialNumberPage(props) {
             })
           : console.log("EMPTY")}
       </View>
-      <CheckBox
-        title={"Select All"}
-        onPress={handleSelectAll}
-        checked={isCheckedAll}
-        containerStyle={styles.flatListItem}
-      />
-      {isLoading ? (
-        <View
-          style={{ flex: 3, justifyContent: "center", alignItems: "center" }}
-        >
-          <ActivityIndicator size={"large"} />
-        </View>
-      ) : (
-        <FlatList
-          data={search ? filteredData : checkedMatNumber}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(item, index) => "key" + index}
-          renderItem={ListViewType}
-        ></FlatList>
-      )}
     </View>
   );
 }

@@ -15,6 +15,7 @@ function MaterialType(props) {
         [materialTypes, setMaterialTypes], 
         [filteredMaterialTypes, setFilteredMaterialTypes]
     ] = [useState([]), useState([])]
+    let timer;
 
     const isCheckedAll = useSelector(state => state.changeLog.isAllSelected)
     const { handleSelectAll: handleSelectAll } = useSelectAll(materialTypes, filteredMaterialTypes, setFilteredMaterialTypes)
@@ -22,7 +23,7 @@ function MaterialType(props) {
     const { handleOnChange: handleOnChange } = useChecked(materialTypes, setMaterialTypes, filteredMaterialTypes, setFilteredMaterialTypes)
     const dispatch = useDispatch()
 
-    let baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMtartSet") : ("https://7333-212-252-137-37.eu.ngrok.io/EtMtartSet")
+    let baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMtartSet") : ("https://f755-24-133-107-93.eu.ngrok.io/EtMtartSet")
     
     const ListViewType = ({item, index}) => {
         return (
@@ -62,13 +63,13 @@ function MaterialType(props) {
 
     useEffect(() => {
         fetchApi()
-        const timer = setTimeout(() => {
+        timer = setTimeout(() => {
         }, 100)
 
         return () => {
             clearTimeout(timer)
         }
-    },[])
+    },[timer])
 
     return (        
         <View flex={1}>

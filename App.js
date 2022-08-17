@@ -20,6 +20,7 @@ import ChangedAtPageStyle from "./assets/css/ChangedAtScreenStyle";
 import ChangedByPageStyle from "./assets/css/ChangedByPageStyle";
 import ChangedAtPage from "./assets/screens/ChangedAtPage";
 import ChangedByPage from "./assets/screens/ChangedByPage";
+import FilteredMaterialsList from "./assets/screens/FilteredMaterialsList";
 import { Provider } from "react-redux"
 import store from "./assets/redux/index.js";
 
@@ -41,6 +42,7 @@ export default function App() {
           <Screen name="CreatedByPage" component={CreatedByPage} options={CreatedByPageStyle} />
           <Screen name="ChangedAtPage" component={ChangedAtPage} options={ChangedAtPageStyle} />
           <Screen name="ChangedByPage" component={ChangedByPage} options={ChangedByPageStyle} />
+          <Screen name="FilteredMaterialsList" component={FilteredMaterialsList} options={{headerShown: true, headerTintColor: "white", headerTitle: 'Materials(15)', headerBackTitle:"Back", headerStyle:{backgroundColor: "rgb(53,74,95)"}}}/>
         </Navigator>
       </NavigationContainer>
     </Provider>

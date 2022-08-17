@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialChangeLogState = { checkedElements: [], isAllSelected: false, searchValue: '' }
+const initialChangeLogState = { checkedElements: [], isAllSelected: false, searchValue: '', showSnackbar: false }
 
 const changeLogSlice =  createSlice({
     name: 'ChangeLogSlice',
@@ -54,6 +54,13 @@ const changeLogSlice =  createSlice({
         },
         resetSearchValueToDefault(state, action){
             state.searchValue = action.payload
+        },
+        resetFilterList(state){
+            if(state.checkedElements.length > 0)
+                state.checkedElements = []
+        },
+        setShowSnackbar(state, action){
+            state.showSnackbar = action.payload
         }
     })
 })

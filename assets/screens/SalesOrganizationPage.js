@@ -20,7 +20,7 @@ function SalesOrganizationPage(props) {
   const { handleSelectAll: handleSelectAll } = useSelectAll(salesOrganizations, filteredSalesOrganizations, setFilteredSalesOrganizations)
   const dispatch = useDispatch()
 
-  var baseURL = Platform.OS === "android" ? "http://10.0.2.2:8000/EtVkorgSet" : "https://8567-24-133-107-93.eu.ngrok.io/EtVkorgSet"
+  var baseURL = Platform.OS === "android" ? "http://10.0.2.2:8000/EtVkorgSet" : "https://f755-24-133-107-93.eu.ngrok.io/EtVkorgSet"
 
   const ListViewType = ({ item, index }) => {
     return (
