@@ -26,8 +26,9 @@ const useSelectAll = (list, filteredList, setFilteredList) => {
                         id: item[item.mainAttribute],
                         sPath: item.mainAttribute,
                         oValue1: item[item.mainAttribute],
-                        operator: 'EQ',
-                        checked: item.checked
+                        operator: 'eq',
+                        checked: item.checked,
+                        mainAttribute: item.mainAttribute
                     }))  
                 })  
 
@@ -47,8 +48,9 @@ const useSelectAll = (list, filteredList, setFilteredList) => {
                         id: item[item.mainAttribute],
                         sPath: item.mainAttribute,
                         oValue1: item[item.mainAttribute],
-                        operator: 'EQ',
-                        checked: item.checked
+                        operator: 'eq',
+                        checked: item.checked,
+                        mainAttribute: item.mainAttribute
                     }))  
                 })            
             }              
@@ -63,8 +65,9 @@ const useSelectAll = (list, filteredList, setFilteredList) => {
                     id: item[item.mainAttribute],
                     sPath: item.mainAttribute,
                     oValue1: item[item.mainAttribute],
-                    operator: 'EQ',
-                    checked: item.checked
+                    operator: 'eq',
+                    checked: item.checked,
+                    mainAttribute: item.mainAttribute
                 }))  
             })               
         }

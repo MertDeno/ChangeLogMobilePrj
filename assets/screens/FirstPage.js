@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Header } from 'react-native-elements';
 import  Icon  from 'react-native-vector-icons/Feather';
 import style from '../css/firstPage.component.style';
-import { Divider, Menu, Provider } from 'react-native-paper'
+import { Provider } from 'react-native-paper'
 import MenuComponent from '../components/MenuComponent';
 
 function FirstPage({ navigation }) {

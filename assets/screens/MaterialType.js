@@ -23,7 +23,7 @@ function MaterialType(props) {
     const { handleOnChange: handleOnChange } = useChecked(materialTypes, setMaterialTypes, filteredMaterialTypes, setFilteredMaterialTypes)
     const dispatch = useDispatch()
 
-    let baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMtartSet") : ("https://f755-24-133-107-93.eu.ngrok.io/EtMtartSet")
+    let baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMtartSet") : ("https://be96-24-133-107-93.eu.ngrok.io/EtMtartSet")
     
     const ListViewType = ({item, index}) => {
         return (
@@ -40,7 +40,7 @@ function MaterialType(props) {
     const fetchApi = async() => {
         const response = await fetch(baseURL)
         const materialTypeResponse = await response.json()
-        
+
         try{
             const fetchedMaterialType = materialTypeResponse.map(materialType => (
                 {

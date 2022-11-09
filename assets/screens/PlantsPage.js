@@ -22,7 +22,7 @@ function PlantsPage() {
   const { searchHandler: plantSearchHandler, searchValue: plantSearchValue } = useSearch(plants, setFilteredPlants)
   const dispatch = useDispatch()
 
-  var baseURL = Platform.OS === "android" ? "http://10.0.2.2:8000/EtWerksSet" : "https://f755-24-133-107-93.eu.ngrok.io/EtWerksSet";
+  var baseURL = Platform.OS === "android" ? "http://10.0.2.2:8000/EtWerksSet" : "https://be96-24-133-107-93.eu.ngrok.io/EtWerksSet";
 
   const ListViewType = ({ item, index }) => {
     return (

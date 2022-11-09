@@ -22,7 +22,7 @@ function CreatedByPage() {
     const { searchValue: creatorValue, searchHandler: searchCreatorHandler} = useSearch(creators, setFilteredCreators)
     const dispatch = useDispatch()
 
-    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtFilterPersonalsSet") : ("https://f755-24-133-107-93.eu.ngrok.io/EtFilterPersonalsSet")
+    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtFilterPersonalsSet") : ("https://92d3-24-133-107-93.eu.ngrok.io/EtFilterPersonalsSet")
 
     const ListViewType = ({item, index}) => {
         return (
@@ -39,11 +39,11 @@ function CreatedByPage() {
         try{
             const response = await fetch(baseURL)
             const personResult = await response.json()
-
+            
             const fetchedSAPUsers = personResult.map(items => (
                 {
                     ...items,
-                    mainAttribute: 'Uname',
+                    mainAttribute: 'Ernam',
                     checked: false,
                     key:Math.random().toString()
                 }

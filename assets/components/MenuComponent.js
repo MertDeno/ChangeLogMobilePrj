@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/Feather';
 
 function MenuComponent(props) {
     const [visible, setVisible] = useState(false)
-
     const openMenu = () => setVisible(true)
     const closeMenu = () => setVisible(false)
 

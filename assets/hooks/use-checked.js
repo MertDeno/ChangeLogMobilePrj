@@ -7,13 +7,14 @@ function useChecked(list, setList, filteredList, setFilteredList){
     const manipulateListItem = (item) => {
         debugger
         item.checked = !item.checked
-        
+
         dispatch(changeLogActions.addCheckedElements({
-            id: item[item.mainAttribute],
+            id: item.key,
             sPath: item.mainAttribute,
-            oValue1: item[item.mainAttribute],
-            operator: 'EQ',
-            checked: item.checked
+            oValue1: (item.mainAttribute != 'Ernam' && item.mainAttribute != 'Aenam') ? item[item.mainAttribute] : item.Uname,
+            operator: 'eq',
+            checked: item.checked,
+            mainAttribute: item.mainAttribute
         }))           
     }
  
@@ -28,6 +29,14 @@ function useChecked(list, setList, filteredList, setFilteredList){
         filteredList.forEach((item) => {
             if(itemToBeChecked === item[list[0].mainAttribute]){
                 debugger
+                manipulateListItem(item)
+                dispatch(changeLogActions.setCheckedAllAfterRendering(filteredList))
+            }
+            else if(list[0].mainAttribute === 'Ernam' && itemToBeChecked === item.Uname){
+                manipulateListItem(item)
+                dispatch(changeLogActions.setCheckedAllAfterRendering(filteredList))
+            }
+            else if(list[0].mainAttribute === 'Aenam' && itemToBeChecked === item.Uname){
                 manipulateListItem(item)
                 dispatch(changeLogActions.setCheckedAllAfterRendering(filteredList))
             }

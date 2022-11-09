@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Dimensions, StyleSheet, Text, View  } from 'react-native';
 import { Header } from 'react-native-elements';
-import { Provider, Snackbar } from 'react-native-paper';
+import { Provider } from 'react-native-paper';
 import { NavigateRow, SectionRow, SettingsPage } from 'react-native-settings-view';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import FilterPageButton from '../components/FilterPageButton';
 import MenuComponent from '../components/MenuComponent';
 import SnackbarComponent from '../components/SnackbarComponent';
@@ -38,12 +38,12 @@ function FilterPage({ navigation }) {
         setFilterClicked(true)
         openSnackbar()
         navigateToFilteredMaterials()
-        dispatch(changeLogActions.resetFilterList())
+    //    dispatch(changeLogActions.resetFilterList())
     }
 
     return (
         <Provider>
-            <SettingsPage style={{height: screenHeight}} backgroundColor="rgb(247,247,247)" scrollEnabled={false}>
+            <SettingsPage style={{height: "100%"}} backgroundColor="rgb(247,247,247)" scrollEnabled={false}>
                 <Header backgroundColor='rgb(53,74,95)' centerComponent={{ text: "Filter Page", style: { color: "#fff", marginTop: 5, fontSize: 15 } }}
                     rightComponent={
                         <MenuComponent />
@@ -76,9 +76,9 @@ function FilterPage({ navigation }) {
                 <SectionRow>
                     <NavigateRow onPress={changedByPage} leftIcon={{ name: "person", type: "material" }} text='Changed By'></NavigateRow>
                 </SectionRow>
-            </SettingsPage>
-            <View style={{flexDirection: "column-reverse", justifyContent: "flex-end", height:"28%"}}>
                 <FilterPageButton onFilter={onFilter} onReset={onReset}/>   
+            </SettingsPage>
+            <View style={{flexDirection: "column-reverse", justifyContent: "flex-end"}}>
                 {!filterClicked && 
                     <SnackbarComponent>                    
                         <Text style={{color:"white"}}>Successfully resetted.</Text>

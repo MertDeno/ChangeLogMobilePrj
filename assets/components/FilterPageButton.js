@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { changeLogActions } from '../redux/change-log-reducers';
+import { useSelector } from 'react-redux';
 
 function FilterPageButton(props) {
     const [isBtnDisabled, setIsBtnDisabled] = useState(false)
-
+    
     const checkedElements = useSelector(state => state.changeLog.checkedElements)
-    const dispatch = useDispatch()
+    const startDateValue = useSelector(state => state.changeLog.createdDateStart)
+    const endDateValue = useSelector(state => state.changeLog.createdDateEnd)
 
     useEffect(() => {
-        checkedElements.length > 0 ? setIsBtnDisabled(false) : setIsBtnDisabled(true) 
-    }, [checkedElements])
+        checkedElements.length > 0 || (startDateValue != '' && endDateValue != '')  ? setIsBtnDisabled(false) : setIsBtnDisabled(true) 
+    }, [checkedElements, startDateValue, endDateValue])
 
     return (
         <View>

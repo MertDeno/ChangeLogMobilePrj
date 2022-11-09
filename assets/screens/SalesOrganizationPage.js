@@ -20,7 +20,7 @@ function SalesOrganizationPage(props) {
   const { handleSelectAll: handleSelectAll } = useSelectAll(salesOrganizations, filteredSalesOrganizations, setFilteredSalesOrganizations)
   const dispatch = useDispatch()
 
-  var baseURL = Platform.OS === "android" ? "http://10.0.2.2:8000/EtVkorgSet" : "https://f755-24-133-107-93.eu.ngrok.io/EtVkorgSet"
+  var baseURL = Platform.OS === "android" ? "http://10.0.2.2:8000/EtVkorgSet" : "https://be96-24-133-107-93.eu.ngrok.io/EtVkorgSet"
 
   const ListViewType = ({ item, index }) => {
     return (
@@ -35,9 +35,10 @@ function SalesOrganizationPage(props) {
   };
 
   const fetchApi = async () => {
+    let dataFetched = true
     const response = await fetch(baseURL)
     const salesOrganizationResponse = await response.json()
-    
+
     try {
       const fetchedSalesOrganizations = salesOrganizationResponse.map(salesOrganization => (
           {
@@ -49,6 +50,7 @@ function SalesOrganizationPage(props) {
         )
       )
 
+      dataFetched &&
       dispatch(changeLogActions.setFetchedElements(fetchedSalesOrganizations))
       dispatch(changeLogActions.setCheckedAllAfterRendering(fetchedSalesOrganizations))
       setSalesOrganizations(fetchedSalesOrganizations)
@@ -57,16 +59,17 @@ function SalesOrganizationPage(props) {
     } catch (error) {
       console.log(error)
     }
+    return () => dataFetched=false
   };
 
   useEffect(() => {
     fetchApi();
-    const timer = setTimeout(() => {
+/*     const timer = setTimeout(() => {
     }, 100)
 
     return () => {
       clearTimeout(timer)
-    }    
+    }     */
   }, []);
 
 

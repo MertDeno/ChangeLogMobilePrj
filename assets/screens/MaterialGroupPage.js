@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { memo } from 'react';
 import { FlatList, Platform, View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,12 +18,14 @@ function MaterialGroupPage(props) {
     ] = [useState([]), useState([])]
 
     const isCheckedAll = useSelector(state => state.changeLog.isAllSelected)
+    const elementsFetched = useSelector(state => state.changeLog.elementsFetched)
+
     const { handleSelectAll: handleSelectAll } = useSelectAll(materialGroups, filteredMaterialGroups, setFilteredMaterialGroups)
     const { handleOnChange: handleOnChange } = useChecked(materialGroups, setMaterialGroups, filteredMaterialGroups, setFilteredMaterialGroups) 
     const { searchValue: materialGroupSearchValue, searchHandler: materialGroupSearchHandler } = useSearch(materialGroups, setFilteredMaterialGroups)
     const dispatch = useDispatch()
 
-    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMatklSet") : ("https://f755-24-133-107-93.eu.ngrok.io/EtMatklSet")
+    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtMatklSet") : ("https://be96-24-133-107-93.eu.ngrok.io/EtMatklSet")
 
     const fetchApi = async() => {
         const response = await fetch(baseURL)
@@ -38,7 +41,7 @@ function MaterialGroupPage(props) {
                 }
             ))
             
-            dispatch(changeLogActions.setFetchedElements(fetchedMaterialGroupData))
+             dispatch(changeLogActions.setFetchedElements(fetchedMaterialGroupData))
             dispatch(changeLogActions.setCheckedAllAfterRendering(fetchedMaterialGroupData))
             setMaterialGroups(fetchedMaterialGroupData)
             setFilteredMaterialGroups(fetchedMaterialGroupData)
@@ -83,4 +86,4 @@ function MaterialGroupPage(props) {
     );
 }
 
-export default MaterialGroupPage;
+export default memo(MaterialGroupPage);

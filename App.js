@@ -24,13 +24,12 @@ import FilteredMaterialsList from "./assets/screens/FilteredMaterialsList";
 import { Provider } from "react-redux"
 import store from "./assets/redux/index.js";
 
-export default function App() {
+const Root = () => {
   const { Navigator, Screen } = createNativeStackNavigator();
-
-  return (
-    <Provider store={store}>
+  
+  return(
       <NavigationContainer>
-        <Navigator initialRouteName="FirstPage">
+        <Navigator initialRouteName="FirstPage" screenOptions={{headerShown:false}}>
           <Screen name="FirstPage" component={FirstPage} options={{ headerShown: false }}/>
           <Screen name="FilterPage" component={FilterPage} options={{ headerShown: false }}/>
           <Screen name="MaterialNumberPage" component={MaterialNumberPage} options={MaterialNumberScreenStyle}/>
@@ -42,9 +41,19 @@ export default function App() {
           <Screen name="CreatedByPage" component={CreatedByPage} options={CreatedByPageStyle} />
           <Screen name="ChangedAtPage" component={ChangedAtPage} options={ChangedAtPageStyle} />
           <Screen name="ChangedByPage" component={ChangedByPage} options={ChangedByPageStyle} />
-          <Screen name="FilteredMaterialsList" component={FilteredMaterialsList} options={{headerShown: true, headerTintColor: "white", headerTitle: 'Materials(15)', headerBackTitle:"Back", headerStyle:{backgroundColor: "rgb(53,74,95)"}}}/>
+          <Screen name="FilteredMaterialsList" 
+            component={FilteredMaterialsList} 
+            options={{headerShown: false, headerStyle:{backgroundColor: "red"}}}/>
         </Navigator>
       </NavigationContainer>
+  )
+}
+
+
+export default function App() {
+  return (
+    <Provider store={store}>
+      <Root />
     </Provider>
   );
 }

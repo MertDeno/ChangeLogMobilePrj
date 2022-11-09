@@ -11,7 +11,11 @@ function useSearch(list, setFilteredList){
         debugger
         searchValue = enteredValue.toUpperCase()
         const newData = list.filter((item) => {
-            return item[list[0].mainAttribute].includes(searchValue)
+            if(list[0].mainAttribute != 'Ernam' && list[0].mainAttribute != 'Aenam')
+                return item[list[0].mainAttribute].includes(searchValue)
+            else{
+                return item.Uname.includes(searchValue)
+            }
         })
     
         for (let index = 0; index < newData.length; index++) {
@@ -30,6 +34,7 @@ function useSearch(list, setFilteredList){
     
     useEffect(() => {
         searchValue = ''
+        searchValue.trim()
     },[])
 
     return {

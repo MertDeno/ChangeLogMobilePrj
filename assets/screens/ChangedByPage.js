@@ -22,7 +22,7 @@ function ChangedByPage(props) {
     const { searchValue: creatorValue, searchHandler: searchCreatorHandler} = useSearch(changers, setFilteredChangers)
     const dispatch = useDispatch()
 
-    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtFilterPersonalsSet") : ("https://f755-24-133-107-93.eu.ngrok.io/EtFilterPersonalsSet")
+    var baseURL = Platform.OS === "android" ? ("http://10.0.2.2:8000/EtFilterPersonalsSet") : ("https://be96-24-133-107-93.eu.ngrok.io/EtFilterPersonalsSet")
 
     const ListViewType = ({item, index}) => {
         return (
@@ -43,7 +43,7 @@ function ChangedByPage(props) {
             const fetchedSAPUsers = personResult.map(items => (
                 {
                     ...items,
-                    mainAttribute: 'Uname',
+                    mainAttribute: 'Aenam',
                     checked: false,
                     key:Math.random().toString()
                 }

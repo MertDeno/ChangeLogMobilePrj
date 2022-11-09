@@ -1,29 +1,25 @@
-import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { View } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker/CalendarPicker';
+import { useSelector } from 'react-redux';
+import useDate from '../hooks/use-date';
 
 function ChangedAtPage(props) {
-    const [
-        [selectedStartDate, setSelectedStartDate], 
-        [selectedEndDate, setSelectedEndDate] ] = [useState(null) ,useState(null)]
-
-    const onDateChange = (date,type) => {
-        if(type === 'END_DATE'){
-            setSelectedEndDate(date)
-        }
-        else{
-            setSelectedEndDate(null)
-            setSelectedStartDate(date)
-        }
-    }
+    const startDateValue = useSelector(state => state.changeLog.changedDateStart)
+    const endDateValue = useSelector(state => state.changeLog.changedDateEnd)
+    const { onDateChange: handleOnChange } = useDate()                       
 
     return (
         <View flex={1}>
-            <CalendarPicker 
+            <CalendarPicker
                 allowRangeSelection={true}
+                selectedStartDate={startDateValue}
+                selectedEndDate={endDateValue}
                 scrollable
                 maxDate={Date.now()}
-                onDateChange={onDateChange}/>
+                todayBackgroundColor="rgb(53,74,95)" 
+                todayTextStyle={{color:"white"}}
+                onDateChange={handleOnChange}/>
         </View>
   )
 }
